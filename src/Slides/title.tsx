@@ -75,7 +75,7 @@ const TitleSlide: React.FC<TitleSlideProps> = ({ onNext, onPrevious }) => {
             whiteSpace: 'nowrap',
           }}
         >
-          Pioneering Traffic Camera AI
+          Smart Cities Start With Vision
         </h1>
       </div>
     </div>
@@ -83,3 +83,5 @@ const TitleSlide: React.FC<TitleSlideProps> = ({ onNext, onPrevious }) => {
 };
 
 export default TitleSlide;
+
+//  Pioneering Traffic Camera AI

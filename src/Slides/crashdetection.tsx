@@ -24,7 +24,12 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
   }, [onNext, onPrevious]);
 
   return (
-    <div className="relative w-full h-screen overflow-auto bg-black">
+    <div 
+      className="relative w-full min-h-screen overflow-auto"
+      style={{
+        background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
+      }}
+    >
       {/* Page Number */}
       <div 
         className="absolute bottom-8 right-8 text-white z-10"
@@ -32,6 +37,7 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
           fontFamily: 'var(--font-inter)',
           fontSize: '18px',
           fontWeight: 400,
+          opacity: 0.6,
         }}
       >
         3
@@ -44,32 +50,31 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
           <h2 
             className="text-white mb-3"
             style={{
-              fontFamily: 'var(--font-inter)',
+              fontFamily: 'Inter',
               fontWeight: 600,
-              fontSize: '24px',
+              fontSize: '36px',
               lineHeight: '100%',
               letterSpacing: '0.02em',
               borderBottom: '3px solid #FFCA2B',
               paddingBottom: '6px',
               display: 'inline-block',
               color: '#FFCA2B',
+              maxWidth: '761px',
             }}
           >
-            ARGUS™ CRASH & INCIDENT DETECTION
+            ARGUS<sup></sup> CRASH & INCIDENT DETECTION
           </h2>
         </div>
 
         {/* Description Box with Gradient */}
         <div 
-          className="mb-8 flex items-start"
+          className="mb-8 flex items-center"
           style={{
             width: '100%',
-            maxWidth: '1646px',
+            maxWidth: '1512px',
+            minHeight: '92px',
             gap: '14px',
-            paddingTop: '32px',
-            paddingRight: '32px',
-            paddingBottom: '34px',
-            paddingLeft: '32px',
+            padding: '24px 32px',
             borderRadius: '12px',
             border: '1px solid rgba(255, 202, 43, 0.3)',
             background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
@@ -81,7 +86,6 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
             style={{ 
               color: '#FFCA2B',
               flexShrink: 0,
-              marginTop: '4px'
             }} 
           />
           
@@ -89,10 +93,11 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
           <p 
             className="text-white"
             style={{
-              fontFamily: 'var(--font-inter)',
+              fontFamily: 'Apercu Pro',
               fontWeight: 400,
-              fontSize: '20px',
-              lineHeight: '150%',
+              fontSize: '28px',
+              lineHeight: '130%',
+              letterSpacing: '0.02em',
               flex: 1,
             }}
           >

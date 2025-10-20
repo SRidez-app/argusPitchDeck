@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 
 interface ProblemSlideProps {
   onNext?: () => void;
@@ -30,7 +29,7 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
     },
     {
       image: '/crash.png',
-      title: 'Accidents happen without public notification',
+      title: 'Accidents and congestion notifications are slow',
     },
     {
       image: '/medic.png',
@@ -39,14 +38,12 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
   ];
 
   return (
-    <div className="relative w-full h-screen overflow-auto">
-      {/* Background with gradient */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
-        }}
-      />
+    <div 
+      className="relative w-full min-h-screen overflow-auto"
+      style={{
+        background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
+      }}
+    >
       
       {/* Scaling wrapper */}
       <div style={{ 
@@ -91,10 +88,10 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
             <h1 
               className="text-white mt-8"
               style={{
-                fontFamily: 'var(--font-inter)',
+                fontFamily: 'Tobias',
                 fontWeight: 500,
-                fontSize: '48px',
-                lineHeight: '110%',
+                fontSize: '72px',
+                lineHeight: '100%',
                 letterSpacing: '0px',
                 maxWidth: '1400px',
               }}
@@ -108,8 +105,9 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
           <div 
             className="flex justify-center items-stretch w-full"
             style={{
-              gap: '32px',
-              maxWidth: '100%',
+              gap: '64px',
+              maxWidth: '1640px',
+              height: '576px',
             }}
           >
             {cards.map((card, index) => (
@@ -124,11 +122,10 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
               >
                 {/* Image Container */}
                 <div className="relative w-full aspect-[4/3] bg-gray-200">
-                  <Image
+                  <img
                     src={card.image}
                     alt={card.title}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover"
                   />
                   {/* Yellow accent bar at bottom of image */}
                   <div 
@@ -142,10 +139,16 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
                   <p 
                     className="text-center text-black"
                     style={{
-                      fontFamily: 'var(--font-inter)',
-                      fontWeight: 600,
-                      fontSize: '16px',
-                      lineHeight: '140%',
+                      fontFamily: 'Apercu Pro',
+                      fontWeight: 500,
+                      fontSize: '30px',
+                      lineHeight: '120%',
+                      letterSpacing: '2%',
+                      maxWidth: index === 0 ? '464px' : '452px',
+                      height: '72px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
                     {card.title}
