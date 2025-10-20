@@ -122,7 +122,7 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
               maxHeight: '600px',
             }}
           >
-            <source src="/accidentdetection.mp4" type="video/mp4" />
+      
             Your browser does not support the video tag.
           </video>
         </div>
