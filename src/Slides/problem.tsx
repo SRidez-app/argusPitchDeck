@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface ProblemSlideProps {
   onNext?: () => void;
@@ -6,6 +6,8 @@ interface ProblemSlideProps {
 }
 
 const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
+  const [scale, setScale] = useState(1);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowRight' && onNext) {
@@ -21,6 +23,23 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onNext, onPrevious]);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const designWidth = 1920;  // Figma canvas width
+      const designHeight = 1080; // Figma canvas height
+      
+      const scaleX = window.innerWidth / designWidth;
+      const scaleY = window.innerHeight / designHeight;
+      const newScale = Math.min(scaleX, scaleY, 1); // Cap at 1 to avoid upscaling
+      
+      setScale(newScale);
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   const cards = [
     {
@@ -39,61 +58,78 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
 
   return (
     <div 
-      className="relative w-full min-h-screen overflow-auto"
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
-      
+      {/* Page Number - Outside scaling wrapper */}
+      <div 
+        className="fixed bottom-8 right-8 text-white z-50"
+        style={{
+          fontFamily: 'var(--font-inter)',
+          fontSize: '14px',
+          fontWeight: 400,
+          opacity: 0.6,
+        }}
+      >
+        2
+      </div>
+
       {/* Scaling wrapper */}
-      <div style={{ 
-        transform: 'scale(0.85)', 
-        transformOrigin: 'top left',
-        width: '117.65%',
-        height: '117.65%'
-      }}>
-        {/* Page Number - Fixed Position */}
-        <div 
-          className="fixed bottom-8 right-8 text-white z-50"
-          style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: '18px',
-            fontWeight: 400,
-            opacity: 0.6,
-          }}
-        >
-          2
-        </div>
-        
+      <div 
+        style={{ 
+          transform: `scale(${scale})`,
+          transformOrigin: 'center center',
+          width: '1920px',
+          height: '1080px',
+          position: 'relative',
+        }}
+      >
         {/* Content Container */}
-        <div className="relative min-h-full flex flex-col items-start justify-start px-12 pt-8 pb-12">
+        <div className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12">
           {/* Title Section */}
           <div className="mb-16">
-            <h2 
-              className="text-white mb-3"
+            <div
               style={{
-                fontFamily: 'var(--font-inter)',
-                fontWeight: 600,
-                fontSize: '24px',
-                lineHeight: '100%',
-                letterSpacing: '0.02em',
-                borderBottom: '3px solid #FFCA2B',
-                paddingBottom: '6px',
-                display: 'inline-block',
+                width: '262px',
+                paddingTop: '8px',
+                paddingBottom: '8px',
+                marginBottom: '40px',
               }}
             >
-              THE PROBLEM
-            </h2>
+              <h2 
+                className="text-white"
+                style={{
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontWeight: 600,
+                  fontSize: '36px',
+                  lineHeight: '44px',
+                  letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                THE PROBLEM
+              </h2>
+              {/* Gold bar underneath */}
+              <div 
+                style={{
+                  borderBottom: '3px solid #FFCA2B',
+                  width: '100%',
+                  marginTop: '8px',
+                }}
+              />
+            </div>
             
             <h1 
-              className="text-white mt-8"
+              className="text-white"
               style={{
                 fontFamily: 'Tobias',
                 fontWeight: 500,
                 fontSize: '72px',
-                lineHeight: '100%',
+                lineHeight: '86px',
                 letterSpacing: '0px',
-                maxWidth: '1400px',
+                width: '1680px',
               }}
             >
               There are over 1m+ traffic cameras nationwide,{' '}
@@ -105,19 +141,18 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
           <div 
             className="flex justify-center items-stretch w-full"
             style={{
-              gap: '64px',
+              gap: '40px',
               maxWidth: '1640px',
-              height: '576px',
             }}
           >
             {cards.map((card, index) => (
               <div 
                 key={index}
-                className="bg-white rounded-xl overflow-hidden flex flex-col"
+                className="bg-white overflow-hidden flex flex-col"
                 style={{
-                  flex: '1',
-                  maxWidth: '380px',
-                  minWidth: '280px',
+                  width: '512px',
+                  height: '576px',
+                  borderRadius: '20px',
                 }}
               >
                 {/* Image Container */}
@@ -135,7 +170,15 @@ const ProblemSlide: React.FC<ProblemSlideProps> = ({ onNext, onPrevious }) => {
                 </div>
                 
                 {/* Card Text */}
-                <div className="p-5 flex-1 flex items-center justify-center">
+                <div 
+                  className="flex-1 flex items-center justify-center"
+                  style={{
+                    paddingTop: '24px',
+                    paddingRight: '24px',
+                    paddingBottom: '40px',
+                    paddingLeft: '24px',
+                  }}
+                >
                   <p 
                     className="text-center text-black"
                     style={{
