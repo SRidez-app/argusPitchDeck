@@ -63,7 +63,7 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
 
   return (
     <div 
-      className="relative w-full h-screen overflow-y-auto overflow-x-hidden"
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
@@ -85,16 +85,37 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
       <div 
         style={{ 
           transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          transformOrigin: 'center center',
           width: '1920px',
-          minHeight: '1080px',
+          height: '1080px',
           position: 'relative',
         }}
       >
-        {/* Content Container */}
-        <div className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-4">
+        {/* Scrollable Content Container */}
+        <div 
+          className="relative w-full h-full overflow-y-auto px-12 pt-8 pb-12"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
+          }}
+        >
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              width: 8px;
+            }
+            div::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            div::-webkit-scrollbar-thumb {
+              background: rgba(255, 202, 43, 0.3);
+              border-radius: 4px;
+            }
+            div::-webkit-scrollbar-thumb:hover {
+              background: rgba(255, 202, 43, 0.5);
+            }
+          `}</style>
           {/* Title Section */}
-          <div className="mb-12">
+          <div className="mb-16">
             <div
               style={{
                 width: 'fit-content',
@@ -142,7 +163,7 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
 
           {/* Team Accomplishments Container */}
           <div 
-            className="w-full space-y-6 transition-all duration-1000"
+            className="w-full space-y-8 transition-all duration-1000"
             style={{
               maxWidth: '1600px',
               opacity: isVisible ? 1 : 0,
@@ -166,18 +187,18 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
                     backgroundColor: 'rgba(0, 0, 0, 0.4)',
                     border: '2px solid rgba(164, 179, 255, 0.3)',
                     borderRadius: '20px',
-                    padding: '28px 40px',
+                    padding: '40px 48px',
                   }}
                 >
                   {/* Name and Title */}
-                  <div className="mb-3">
+                  <div className="mb-5">
                     <h3
                       style={{
                         fontFamily: 'Apercu Pro',
-                        fontSize: '40px',
+                        fontSize: '42px',
                         fontWeight: 700,
                         color: '#FFCA2B',
-                        marginBottom: '8px',
+                        marginBottom: '12px',
                       }}
                     >
                       {member.name}
@@ -185,7 +206,7 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
                     <p
                       style={{
                         fontFamily: 'Apercu Pro',
-                        fontSize: '24px',
+                        fontSize: '26px',
                         fontWeight: 500,
                         color: 'rgba(255, 255, 255, 0.8)',
                       }}
@@ -198,9 +219,9 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
                   <p
                     style={{
                       fontFamily: 'Apercu Pro',
-                      fontSize: '20px',
+                      fontSize: '22px',
                       fontWeight: 400,
-                      lineHeight: '150%',
+                      lineHeight: '160%',
                       color: 'rgba(255, 255, 255, 0.9)',
                     }}
                   >

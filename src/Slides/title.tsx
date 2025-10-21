@@ -115,7 +115,7 @@ const TitleSlide: React.FC<TitleSlideProps> = ({ onNext, onPrevious }) => {
               justifyContent: 'center',
             }}
           >
-            Pioneering Traffic Camera AI
+            Smart Cities start with Vision
           </h1>
         </div>
       </div>
