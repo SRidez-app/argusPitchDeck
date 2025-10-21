@@ -179,7 +179,7 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
                 <div 
                   className="grid"
                   style={{
-                    gridTemplateColumns: '2.5fr 1fr 1fr 1fr',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr',  // Makes features column smaller
                     backgroundColor: 'rgba(164, 179, 255, 0.1)',
                     borderBottom: '2px solid #A4B3FF',
                   }}
@@ -221,7 +221,7 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
                     key={featureIdx}
                     className="grid"
                     style={{
-                      gridTemplateColumns: '2.5fr 1fr 1fr 1fr',
+                      gridTemplateColumns: '1fr 1fr 1fr 1fr',
                       borderBottom: featureIdx < section.features.length - 1 ? '1px solid rgba(164, 179, 255, 0.2)' : 'none',
                       backgroundColor: featureIdx % 2 === 0 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
                     }}
@@ -240,7 +240,7 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
                     {feature.values.map((value, valueIdx) => (
                       <div
                         key={valueIdx}
-                        className="px-8 py-5 flex items-center justify-center"
+                        className="px- py-5 flex items-center justify-center"
                         style={{
                           backgroundColor: section.competitors[valueIdx] === 'Argus' ? 'rgba(255, 202, 43, 0.08)' : 'transparent',
                           borderLeft: '1px solid rgba(164, 179, 255, 0.15)',

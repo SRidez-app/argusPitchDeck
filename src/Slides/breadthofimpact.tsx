@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 interface BreadthOfImpactSlideProps {
   onNext?: () => void;
@@ -8,8 +8,11 @@ interface BreadthOfImpactSlideProps {
 
 const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onPrevious }) => {
   const [scale, setScale] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => setIsVisible(true), 100);
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowRight' && onNext) {
         onNext();
@@ -42,30 +45,26 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
     return () => window.removeEventListener('resize', updateScale);
   }, []);
 
-  const impacts = [
+  const problemImpacts = [
     {
-      text: '35% of Accidents are disputed fault and fraudulent',
-      icon: '/icon.png',
-      isHighlighted: false,
-      fontSize: '40px',
+      problem: '911/Emergency Responses Delayed',
+      impact: 'Impacting lives and serious medical injuries.',
     },
     {
-      text: '911/Emergency Response is delayed and lives are impacted',
-      icon: '/icon.png',
-      isHighlighted: false,
-      fontSize: '40px',
+      problem: 'Traffic Ops Monitor 1000s of Cams Manually',
+      impact: 'Missing incidents leading to more congestion.',
     },
     {
-      text: 'DOT Dept. - Struggle to manage congestion in response to incidents',
-      icon: '/icon.png',
-      isHighlighted: false,
-      fontSize: '40px',
+      problem: 'Traffic Incidents data is fragmented',
+      impact: 'Drivers are stuck in traffic with stale alerts.',
     },
     {
-      text: 'Accident Alerts are delayed resulting in wasted time/fuel and lost revenue.',
-      icon: '/icongreen.png',
-      isHighlighted: true,
-      fontSize: '64px',
+      problem: '25% of Auto Claims are Disputed Fault',
+      impact: 'Billions are wasted in liability and claims processing.',
+    },
+    {
+      problem: 'Traffic Alerts are delayed 5-15 minutes.',
+      impact: 'Adding to congestion, wasted fuel, and poor city investments.',
     },
   ];
 
@@ -73,7 +72,7 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
     <div 
       className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{
-        background: '#000000',
+        background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
       {/* Page Number - Outside scaling wrapper */}
@@ -102,7 +101,7 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
         {/* Content Container */}
         <div className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12">
           {/* Title Section */}
-          <div className="mb-16">
+          <div className="mb-12">
             <div
               style={{
                 width: '262px',
@@ -141,8 +140,6 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
                 fontSize: '96px',
                 lineHeight: '100%',
                 letterSpacing: '0px',
-                width: '1680px',
-                height: '115px',
                 color: '#FFCA2B',
               }}
             >
@@ -150,68 +147,135 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
             </h1>
           </div>
 
-          {/* Impact Items Container */}
+          {/* Column Headers */}
           <div 
-            className="flex flex-col"
+            className="flex items-center w-full transition-all duration-1000"
             style={{
-              width: '1680px',
-              gap: '83px',
+              maxWidth: '1700px',
+              marginBottom: '24px',
+              paddingLeft: '64px',
+              paddingRight: '64px',
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(-20px)',
+            }}
+          >
+            <div style={{ width: '620px' }}>
+              <h3
+                style={{
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: '32px',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                PROBLEM
+              </h3>
+            </div>
+            <div style={{ width: '100px' }} />
+            <div style={{ width: '620px' }}>
+              <h3
+                style={{
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: '32px',
+                  fontWeight: 700,
+                  color: '#FFCA2B',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                IMPACT
+              </h3>
+            </div>
+          </div>
+
+          {/* Problem → Impact Rows */}
+          <div 
+            className="flex flex-col w-full"
+            style={{
+              maxWidth: '1700px',
+              gap: '28px',
               paddingLeft: '64px',
               paddingRight: '64px',
             }}
           >
-            {impacts.map((impact, index) => (
+            {problemImpacts.map((item, index) => (
               <div 
                 key={index}
-                className="flex items-center"
+                className="flex items-center transition-all duration-1000"
                 style={{
-                  width: '1552px',
-                  minHeight: impact.isHighlighted ? '176px' : index === 0 ? '79px' : index === 1 ? '92px' : '82px',
-                  gap: '40px',
-                  paddingTop: '16px',
-                  paddingRight: '60px',
-                  paddingBottom: '16px',
-                  paddingLeft: '60px',
-                  borderRadius: '20px',
-                  border: impact.isHighlighted ? '2px solid #A4B3FF' : '2px solid #A4B3FF',
-                  background: 'transparent',
+                  gap: '32px',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${index * 150 + 300}ms`,
                 }}
               >
-                {/* Icon Bullet */}
-                <div 
-                  style={{ 
-                    flexShrink: 0, 
-                    width: '47.43px', 
-                    height: '60px',
-                    padding: '5px 8px',
+                {/* Problem Box */}
+                <div
+                  style={{
+                    width: '620px',
+                    minHeight: '90px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    border: '2px solid rgba(164, 179, 255, 0.3)',
+                    borderRadius: '16px',
+                    padding: '24px 28px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <p
+                    style={{
+                      fontFamily: 'Apercu Pro',
+                      fontSize: '22px',
+                      fontWeight: 500,
+                      lineHeight: '140%',
+                      color: '#FFFFFF',
+                    }}
+                  >
+                    {item.problem}
+                  </p>
+                </div>
+
+                {/* Arrow */}
+                <div
+                  style={{
+                    width: '100px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Image
-                    src={impact.icon}
-                    alt="Bullet icon"
-                    width={47}
-                    height={60}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  <ArrowRight 
+                    size={56} 
+                    color="#FFCA2B" 
+                    strokeWidth={2.5}
                   />
                 </div>
-                
-                {/* Text */}
-                <p 
+
+                {/* Impact Box */}
+                <div
                   style={{
-                    fontFamily: 'Apercu Pro',
-                    fontWeight: 400,
-                    fontSize: impact.fontSize,
-                    lineHeight: '100%',
-                    letterSpacing: '0.02em',
-                    flex: 1,
-                    color: impact.isHighlighted ? '#FFCA2B' : '#FFFFFF',
+                    width: '620px',
+                    minHeight: '90px',
+                    backgroundColor: 'rgba(255, 202, 43, 0.08)',
+                    border: '2px solid rgba(255, 202, 43, 0.4)',
+                    borderRadius: '16px',
+                    padding: '24px 28px',
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
-                  {impact.text}
-                </p>
+                  <p
+                    style={{
+                      fontFamily: 'Apercu Pro',
+                      fontSize: '22px',
+                      fontWeight: 500,
+                      lineHeight: '140%',
+                      color: '#FFCA2B',
+                    }}
+                  >
+                    {item.impact}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

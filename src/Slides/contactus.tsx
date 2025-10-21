@@ -119,6 +119,65 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
           position: 'relative',
         }}
       >
+        {/* Fireworks */}
+        {fireworks.map((firework) => (
+          <div
+            key={firework.id}
+            style={{
+              position: 'absolute',
+              left: `${firework.x}%`,
+              top: `${firework.y}%`,
+              width: '4px',
+              height: '4px',
+              borderRadius: '50%',
+              animation: `firework 2s ease-out ${firework.delay}ms`,
+              pointerEvents: 'none',
+            }}
+          >
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  width: '3px',
+                  height: '3px',
+                  borderRadius: '50%',
+                  background: i % 3 === 0 ? '#FFCA2B' : i % 3 === 1 ? '#FFD700' : '#FFA500',
+                  animation: `particle 2s ease-out ${firework.delay}ms`,
+                  transform: `rotate(${i * 30}deg) translateX(0)`,
+                  opacity: 0,
+                }}
+              />
+            ))}
+          </div>
+        ))}
+
+        <style jsx>{`
+          @keyframes firework {
+            0% {
+              opacity: 0;
+              transform: translateY(200px);
+            }
+            20% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(0);
+            }
+          }
+          
+          @keyframes particle {
+            0% {
+              opacity: 1;
+              transform: rotate(var(--rotation, 0deg)) translateX(0);
+            }
+            100% {
+              opacity: 0;
+              transform: rotate(var(--rotation, 0deg)) translateX(120px);
+            }
+          }
+        `}</style>
         {/* Content Container */}
         <div className="relative w-full h-full flex flex-col items-center justify-center px-12">
           {/* Logo */}

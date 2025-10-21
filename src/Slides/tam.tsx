@@ -104,7 +104,7 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
         {/* Content Container */}
         <div className="relative w-full h-full flex px-12 pt-8 pb-12">
           {/* Left Side - Chart */}
-          <div className="flex flex-col items-start justify-start" style={{ width: '1200px' }}>
+          <div className="flex flex-col items-start justify-start flex-1" style={{ width: '1200px' }}>
             {/* Title Section */}
             <div className="mb-16">
               <div
