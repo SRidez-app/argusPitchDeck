@@ -51,7 +51,7 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
     return () => window.removeEventListener('resize', updateScale);
   }, []);
 
-  const marketData = [
+ const marketData = [
     {
       vertical: 'Insurance Claims',
       tam: 50,
@@ -59,16 +59,10 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
       som: 9,
     },
     {
-      vertical: 'ITS Software',
-      tam: 35,
-      sam: 14,
-      som: 7,
-    },
-    {
-      vertical: '911 PSAP',
-      tam: 11,
-      sam: 4,
-      som: 3,
+      vertical: 'Government',
+      tam: 46,
+      sam: 18,
+      som: 10,
     },
     {
       vertical: 'Mobility & Navigation',
@@ -221,7 +215,7 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
                   fontFamily: 'Inter, var(--font-inter)',
                   fontWeight: 600,
                   fontSize: '36px',
-                  lineHeight: '44px',
+                  lineHeight: '49px',
                   letterSpacing: '0.02em',
                   whiteSpace: 'nowrap',
                 }}
