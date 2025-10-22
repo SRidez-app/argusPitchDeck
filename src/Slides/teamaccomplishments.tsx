@@ -60,7 +60,7 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
           opacity: 0.6,
         }}
       >
-        10
+        11
       </div>
 
       {/* Scrollable Content Container */}

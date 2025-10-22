@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface RevenueProjectionSlideProps {
@@ -10,9 +10,9 @@ interface RevenueProjectionSlideProps {
 
 const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext, onPrevious }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const chartRef = useRef<any>(null);
 
   const data = [
     { year: '1', mobility: 100000, government: 20000, insurance: 20000 },
@@ -41,25 +41,6 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrevious]);
-
-  // Auto-play animation effect
-  useEffect(() => {
-    if (!isAutoPlaying || hasUserInteracted) return;
-
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => {
-        if (prevIndex === null) return 0;
-        const nextIndex = prevIndex + 1;
-        if (nextIndex >= data.length) {
-          // Loop back to start
-          return 0;
-        }
-        return nextIndex;
-      });
-    }, 1500); // Change year every 1.5 seconds
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, hasUserInteracted, data.length]);
 
   const formatYAxis = (value: number) => {
     if (value >= 1000000) {
@@ -159,7 +140,7 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           opacity: 0.6,
         }}
       >
-        8
+        9
       </div>
 
       {/* Content Container */}
@@ -249,7 +230,7 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           >
             Structured Sales Growth Across Key Verticals
           </p>
-          {!hasUserInteracted && (
+          {!hasUserInteracted && isAutoPlaying && (
             <p
               style={{
                 fontFamily: 'Inter',
@@ -259,11 +240,10 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
                 color: 'rgba(255, 202, 43, 0.7)',
                 marginTop: 'clamp(12px, 1.5vh, 16px)',
                 fontStyle: 'italic',
-                opacity: isAutoPlaying ? 1 : 0,
                 transition: 'opacity 0.5s ease',
               }}
             >
-              💡 Hover over the chart to explore each year's revenue breakdown
+              💡 Hover over the chart to explore each year&apos;s revenue breakdown
             </p>
           )}
         </div>
@@ -288,22 +268,11 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
             setIsAutoPlaying(false);
             setHasUserInteracted(true);
           }}
-          onMouseLeave={() => {
-            setActiveIndex(null);
-          }}
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={data} 
               margin={{ top: 20, right: 30, left: 60, bottom: 20 }}
-              onMouseMove={(state) => {
-                if (state && state.isTooltipActive && hasUserInteracted) {
-                  const index = state.activeTooltipIndex;
-                  if (typeof index === 'number') {
-                    setActiveIndex(index);
-                  }
-                }
-              }}
             >
               <defs>
                 {/* Gradient for Mobility */}
@@ -353,19 +322,7 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
                 }}
                 tick={{ fill: 'rgba(255, 255, 255, 0.8)' }}
               />
-              <Tooltip 
-                content={<CustomTooltip />}
-                active={activeIndex !== null}
-                {...(activeIndex !== null && {
-                  coordinate: undefined,
-                  payload: [
-                    { name: 'Mobility', value: data[activeIndex].mobility, color: '#FFD700' },
-                    { name: "Gov't", value: data[activeIndex].government, color: '#FF6347' },
-                    { name: 'Insurance/PI Firms', value: data[activeIndex].insurance, color: '#FFB6C1' }
-                  ],
-                  label: data[activeIndex].year
-                })}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Legend 
                 wrapperStyle={{ 
                   fontFamily: 'Inter',

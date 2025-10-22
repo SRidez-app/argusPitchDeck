@@ -64,7 +64,7 @@ const TeamOverviewSlide: React.FC<TeamOverviewSlideProps> = ({ onNext, onPreviou
           opacity: 0.6,
         }}
       >
-        9
+        10
       </div>
 
       {/* Content Container */}
