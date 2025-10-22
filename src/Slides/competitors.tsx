@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Check, Minus } from 'lucide-react';
 
-interface CompetitorsSlideProps {
+interface WhyArgusStandsAloneSlideProps {
   onNext?: () => void;
   onPrevious?: () => void;
 }
 
-const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious }) => {
+const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onNext, onPrevious }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -26,44 +25,39 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrevious]);
 
- const competitorData = [
+  const competitors = [
     {
-      category: 'DOT/ ITS',
-      competitors: ['Iteris', 'SWRI', 'Argus'],
-      features: [
-        { name: 'ATMS Software', values: [true, true, false] },
-        { name: 'Incident Operations', values: [true, true, false] },
-        { name: 'AI Detection', values: [false, false, true] },
-        { name: 'API Alerting service', values: [false, false, true] },
-      ],
+      name: 'Traffic Cam Archive',
+      storage: '90 days',
+      apiSearch: false,
+      aiDetection: false,
+      dotCapability: false,
+      aiForecast: false,
+      isArgus: false,
     },
     {
-      category: 'Traffic Analytics/Data',
-      competitors: ['INIRX', 'HERE', 'Argus'],
-      features: [
-        { name: 'Cell Phone Traffic Alerts', values: [true, true, false] },
-        { name: 'Traffic Analytics', values: [true, true, false] },
-        { name: 'AI detection', values: [false, false, true] },
-        { name: 'AI data feed', values: [false, false, true] },
-        { name: 'API Alerting service', values: [false, true, true] },
-      ],
+      name: 'Road Proof',
+      storage: '90 days',
+      apiSearch: false,
+      aiDetection: false,
+      dotCapability: false,
+      aiForecast: false,
+      isArgus: false,
     },
     {
-      category: 'Navigation Service',
-      competitors: ['HERE', 'Tom Tom', 'Argus'],
-      features: [
-        { name: 'SDK Software provider', values: [true, true, false] },
-        { name: 'Cell Phone', values: [true, true, false] },
-        { name: 'OEM', values: [true, true, false] },
-        { name: 'Road Sensors', values: [true, true, false] },
-        { name: 'Traffic Cam AI', values: [false, false, true] },
-      ],
+      name: 'ARGUS AI',
+      storage: 'Unlimited',
+      apiSearch: true,
+      aiDetection: true,
+      dotCapability: true,
+      aiForecast: true,
+      isArgus: true,
     },
   ];
 
   return (
     <div 
-      className="relative w-full h-screen overflow-y-auto overflow-x-hidden"
+      className="relative w-full h-screen overflow-hidden"
       style={{
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
@@ -81,10 +75,31 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
         6
       </div>
 
-      {/* Content Container - No centering, natural flow */}
-      <div className="relative w-full min-h-full px-16 pt-12 pb-20">
+      {/* Content Container */}
+      <div 
+        className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12 overflow-y-auto"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
+        }}
+      >
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            width: 8px;
+          }
+          div::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          div::-webkit-scrollbar-thumb {
+            background: rgba(255, 202, 43, 0.3);
+            border-radius: 4px;
+          }
+          div::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 202, 43, 0.5);
+          }
+        `}</style>
         {/* Title Section */}
-        <div className="mb-12 max-w-[1800px]">
+        <div className="mb-8">
           <div
             style={{
               width: 'fit-content',
@@ -98,18 +113,17 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
               style={{
                 fontFamily: 'Inter, var(--font-inter)',
                 fontWeight: 600,
-                fontSize: '16px',
-                lineHeight: '24px',
+                fontSize: 'clamp(24px, 2vw, 36px)',
+                lineHeight: '1.2',
                 letterSpacing: '0.02em',
                 whiteSpace: 'nowrap',
               }}
             >
-              THE CONNECTED MOBILITY ECOSYSTEM
+              COMPETITIVE ADVANTAGE
             </h2>
-            {/* Gold bar underneath */}
             <div 
               style={{
-                borderBottom: '2px solid #FFCA2B',
+                borderBottom: '3px solid #FFCA2B',
                 width: '100%',
                 marginTop: '8px',
               }}
@@ -120,160 +134,209 @@ const CompetitorsSlide: React.FC<CompetitorsSlideProps> = ({ onNext, onPrevious 
             style={{
               fontFamily: 'Tobias',
               fontWeight: 500,
-              fontSize: '52px',
-              lineHeight: '86px',
+              fontSize: 'clamp(36px, 4vw, 72px)',
+              lineHeight: '1.2',
               letterSpacing: '0px',
               color: '#FFFFFF',
-              marginBottom: '8px',
             }}
           >
-            Redefining Transportation{' '}
-            <span style={{ color: '#FFCA2B' }}>Intelligence</span>
+            Why <span style={{ color: '#FFCA2B' }}>ARGUS AI</span> Stands Alone
           </h1>
+          <p
+            style={{
+              fontFamily: 'Apercu Pro',
+              fontSize: 'clamp(16px, 1.3vw, 24px)',
+              fontWeight: 400,
+              color: 'rgba(255, 255, 255, 0.8)',
+              marginTop: '16px',
+            }}
+          >
+            The Only Complete AI-Powered Traffic Intelligence Platform
+          </p>
         </div>
 
-        {/* Competitor Tables */}
-        <div className="w-full max-w-[1800px] space-y-12">
-          {competitorData.map((section, sectionIndex) => (
-            <div 
-              key={sectionIndex}
-              className="transition-all duration-1000"
+        {/* Comparison Table */}
+        <div 
+          className="w-full transition-all duration-1000"
+          style={{
+            maxWidth: '100%',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '200ms',
+          }}
+        >
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ background: 'rgba(0, 0, 0, 0.6)' }}>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'left', 
+                  color: '#FFCA2B',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(14px, 1vw, 18px)',
+                  fontWeight: 700,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  SOLUTION
+                </th>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  Storage Length
+                </th>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  API Auto Search
+                </th>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  AI Accident Detection
+                </th>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  DOT/911 Capability
+                </th>
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                }}>
+                  AI Traffic Forecast
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {competitors.map((competitor, index) => (
+                <tr
+                  key={index}
+                  style={{
+                    background: competitor.isArgus ? 'rgba(255, 202, 43, 0.1)' : 'rgba(0, 0, 0, 0.3)',
+                    borderLeft: competitor.isArgus ? '5px solid #FFCA2B' : 'none',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'left',
+                    fontFamily: 'Apercu Pro',
+                    fontSize: competitor.isArgus ? 'clamp(18px, 1.3vw, 24px)' : 'clamp(16px, 1.1vw, 20px)',
+                    fontWeight: competitor.isArgus ? 800 : 600,
+                    color: competitor.isArgus ? '#FFCA2B' : '#FFFFFF',
+                  }}>
+                    {competitor.name}
+                  </td>
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontFamily: 'Apercu Pro',
+                    fontSize: 'clamp(14px, 1vw, 18px)',
+                    fontWeight: competitor.storage === 'Unlimited' ? 800 : 500,
+                    color: competitor.storage === 'Unlimited' ? '#FFCA2B' : 'rgba(255, 255, 255, 0.7)',
+                    textTransform: competitor.storage === 'Unlimited' ? 'uppercase' : 'none',
+                  }}>
+                    {competitor.storage}
+                  </td>
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontSize: 'clamp(24px, 1.8vw, 32px)',
+                    fontWeight: 900,
+                    color: competitor.apiSearch ? '#0AEB2C' : '#DC3545',
+                  }}>
+                    {competitor.apiSearch ? '✓' : '✗'}
+                  </td>
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontSize: 'clamp(24px, 1.8vw, 32px)',
+                    fontWeight: 900,
+                    color: competitor.aiDetection ? '#0AEB2C' : '#DC3545',
+                  }}>
+                    {competitor.aiDetection ? '✓' : '✗'}
+                  </td>
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontSize: 'clamp(24px, 1.8vw, 32px)',
+                    fontWeight: 900,
+                    color: competitor.dotCapability ? '#0AEB2C' : '#DC3545',
+                  }}>
+                    {competitor.dotCapability ? '✓' : '✗'}
+                  </td>
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontSize: 'clamp(24px, 1.8vw, 32px)',
+                    fontWeight: 900,
+                    color: competitor.aiForecast ? '#0AEB2C' : '#DC3545',
+                  }}>
+                    {competitor.aiForecast ? '✓' : '✗'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Callout */}
+          <div
+            className="mt-6 transition-all duration-1000"
+            style={{
+              padding: 'clamp(20px, 1.5vw, 24px) clamp(24px, 2vw, 32px)',
+              background: 'rgba(255, 202, 43, 0.15)',
+              border: '2px solid rgba(255, 202, 43, 0.3)',
+              borderRadius: '12px',
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+              transitionDelay: '400ms',
+            }}
+          >
+            <p
               style={{
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                transitionDelay: `${sectionIndex * 200}ms`,
+                fontFamily: 'Apercu Pro',
+                fontSize: 'clamp(26px, 1.1vw, 20px)',
+                fontWeight: 700,
+                color: '#FFFFFF',
+                lineHeight: '1.5',
               }}
             >
-              {/* Category Header */}
-              <div 
-                className="mb-4 px-8 py-4 rounded-t-lg"
-                style={{
-                  background: 'rgba(255, 202, 43, 0.1)',
-                  borderLeft: '4px solid #FFCA2B',
-                  borderTop: '1px solid rgba(255, 202, 43, 0.3)',
-                  borderRight: '1px solid rgba(255, 202, 43, 0.3)',
-                }}
-              >
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '24px',
-                    fontWeight: 700,
-                    color: '#FFCA2B',
-                    letterSpacing: '0.02em',
-                  }}
-                >
-                  {section.category}
-                </h3>
-              </div>
-
-              {/* Table */}
-              <div 
-                className="rounded-lg overflow-hidden"
-                style={{
-                  border: '2px solid #A4B3FF',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                }}
-              >
-                {/* Table Header */}
-                <div 
-                  className="grid"
-                  style={{
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr',  // Makes features column smaller
-                    backgroundColor: 'rgba(164, 179, 255, 0.1)',
-                    borderBottom: '2px solid #A4B3FF',
-                  }}
-                >
-                  <div
-                    className="px-8 py-5"
-                    style={{
-                      fontFamily: 'var(--font-inter)',
-                      fontSize: '18px',
-                      fontWeight: 700,
-                      color: '#FFFFFF',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                    }}
-                  >
-                    Features
-                  </div>
-                  {section.competitors.map((competitor, idx) => (
-                    <div
-                      key={idx}
-                      className="px-8 py-5 text-center"
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: '20px',
-                        fontWeight: 700,
-                        color: competitor === 'Argus' ? '#FFCA2B' : 'white',
-                        backgroundColor: competitor === 'Argus' ? 'rgba(255, 202, 43, 0.15)' : 'transparent',
-                        borderLeft: '1px solid rgba(164, 179, 255, 0.3)',
-                      }}
-                    >
-                      {competitor}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Table Rows */}
-                {section.features.map((feature, featureIdx) => (
-                  <div
-                    key={featureIdx}
-                    className="grid"
-                    style={{
-                      gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                      borderBottom: featureIdx < section.features.length - 1 ? '1px solid rgba(164, 179, 255, 0.2)' : 'none',
-                      backgroundColor: featureIdx % 2 === 0 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-                    }}
-                  >
-                    <div
-                      className="px-8 py-5"
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: '17px',
-                        fontWeight: 400,
-                        color: '#FFFFFF',
-                      }}
-                    >
-                      {feature.name}
-                    </div>
-                    {feature.values.map((value, valueIdx) => (
-                      <div
-                        key={valueIdx}
-                        className="px- py-5 flex items-center justify-center"
-                        style={{
-                          backgroundColor: section.competitors[valueIdx] === 'Argus' ? 'rgba(255, 202, 43, 0.08)' : 'transparent',
-                          borderLeft: '1px solid rgba(164, 179, 255, 0.15)',
-                        }}
-                      >
-                        {value ? (
-                          <Check 
-                            size={28} 
-                            style={{ 
-                              color: section.competitors[valueIdx] === 'Argus' ? '#0AEB2C' : '#10B981',
-                              strokeWidth: 3,
-                            }} 
-                          />
-                        ) : (
-                          <Minus 
-                            size={28} 
-                            style={{ 
-                              color: 'rgba(164, 179, 255, 0.3)',
-                              strokeWidth: 2,
-                            }} 
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+              ARGUS AI is the only solution offering unlimited storage with full AI-powered capabilities — 
+              a 10X competitive advantage in the $2B+ traffic intelligence market.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default CompetitorsSlide;
+export default WhyArgusStandsAloneSlide;

@@ -8,7 +8,6 @@ interface TeamAccomplishmentsSlideProps {
 }
 
 const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onNext, onPrevious }) => {
-  const [scale, setScale] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,23 +24,6 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrevious]);
-
-  useEffect(() => {
-    const updateScale = () => {
-      const designWidth = 1920;
-      const designHeight = 1080;
-      
-      const scaleX = window.innerWidth / designWidth;
-      const scaleY = window.innerHeight / designHeight;
-      const newScale = Math.min(scaleX, scaleY, 1);
-      
-      setScale(newScale);
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
 
   const teamAccomplishments = [
     {
@@ -63,12 +45,12 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
 
   return (
     <div 
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full h-screen overflow-hidden"
       style={{
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
-      {/* Page Number - Outside scaling wrapper */}
+      {/* Page Number */}
       <div 
         className="fixed bottom-8 right-8 text-white z-50"
         style={{
@@ -81,156 +63,146 @@ const TeamAccomplishmentsSlide: React.FC<TeamAccomplishmentsSlideProps> = ({ onN
         10
       </div>
 
-      {/* Scaling wrapper */}
+      {/* Scrollable Content Container */}
       <div 
-        style={{ 
-          transform: `scale(${scale})`,
-          transformOrigin: 'center center',
-          width: '1920px',
-          height: '1080px',
-          position: 'relative',
+        className="relative w-full h-full overflow-y-auto px-12 pt-8 pb-12"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
         }}
       >
-        {/* Scrollable Content Container */}
-        <div 
-          className="relative w-full h-full overflow-y-auto px-12 pt-8 pb-12"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
-          }}
-        >
-          <style jsx>{`
-            div::-webkit-scrollbar {
-              width: 8px;
-            }
-            div::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            div::-webkit-scrollbar-thumb {
-              background: rgba(255, 202, 43, 0.3);
-              border-radius: 4px;
-            }
-            div::-webkit-scrollbar-thumb:hover {
-              background: rgba(255, 202, 43, 0.5);
-            }
-          `}</style>
-          {/* Title Section */}
-          <div className="mb-16">
-            <div
-              style={{
-                width: 'fit-content',
-                paddingTop: '8px',
-                paddingBottom: '8px',
-                marginBottom: '40px',
-              }}
-            >
-              <h2 
-                className="text-white"
-                style={{
-                  fontFamily: 'Inter, var(--font-inter)',
-                  fontWeight: 600,
-                  fontSize: '36px',
-                  lineHeight: '44px',
-                  letterSpacing: '0.02em',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                OUR TEAM
-              </h2>
-              <div 
-                style={{
-                  borderBottom: '3px solid #FFCA2B',
-                  width: '100%',
-                  marginTop: '8px',
-                }}
-              />
-            </div>
-            
-            <h1 
-              style={{
-                fontFamily: 'Tobias',
-                fontWeight: 500,
-                fontSize: '72px',
-                lineHeight: '86px',
-                letterSpacing: '0px',
-                color: '#FFFFFF',
-              }}
-            >
-              Track Record{' '}
-              <span style={{ color: '#FFCA2B' }}>& Accomplishments</span>
-            </h1>
-          </div>
-
-          {/* Team Accomplishments Container */}
-          <div 
-            className="w-full space-y-8 transition-all duration-1000"
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            width: 8px;
+          }
+          div::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          div::-webkit-scrollbar-thumb {
+            background: rgba(255, 202, 43, 0.3);
+            border-radius: 4px;
+          }
+          div::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 202, 43, 0.5);
+          }
+        `}</style>
+        
+        {/* Title Section */}
+        <div className="mb-12">
+          <div
             style={{
-              maxWidth: '1600px',
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-              transitionDelay: '200ms',
+              width: 'fit-content',
+              paddingTop: '8px',
+              paddingBottom: '8px',
+              marginBottom: '40px',
             }}
           >
-            {teamAccomplishments.map((member, index) => (
-              <div 
-                key={index}
-                className="transition-all duration-1000"
+            <h2 
+              className="text-white"
+              style={{
+                fontFamily: 'Inter, var(--font-inter)',
+                fontWeight: 600,
+                fontSize: 'clamp(24px, 2vw, 36px)',
+                lineHeight: '1.2',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              OUR TEAM
+            </h2>
+            <div 
+              style={{
+                borderBottom: '3px solid #FFCA2B',
+                width: '100%',
+                marginTop: '8px',
+              }}
+            />
+          </div>
+          
+          <h1 
+            style={{
+              fontFamily: 'Tobias',
+              fontWeight: 500,
+              fontSize: 'clamp(36px, 4vw, 72px)',
+              lineHeight: '1.2',
+              letterSpacing: '0px',
+              color: '#FFFFFF',
+            }}
+          >
+            Track Record{' '}
+            <span style={{ color: '#FFCA2B' }}>& Accomplishments</span>
+          </h1>
+        </div>
+
+        {/* Team Accomplishments Container */}
+        <div 
+          className="w-full space-y-8 transition-all duration-1000"
+          style={{
+            maxWidth: '100%',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '200ms',
+          }}
+        >
+          {teamAccomplishments.map((member, index) => (
+            <div 
+              key={index}
+              className="transition-all duration-1000"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                transitionDelay: `${index * 150 + 400}ms`,
+              }}
+            >
+              {/* Member Card */}
+              <div
                 style={{
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                  transitionDelay: `${index * 150 + 400}ms`,
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  border: '2px solid rgba(164, 179, 255, 0.3)',
+                  borderRadius: '20px',
+                  padding: 'clamp(24px, 2.5vw, 40px) clamp(32px, 3vw, 48px)',
                 }}
               >
-                {/* Member Card */}
-                <div
-                  style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    border: '2px solid rgba(164, 179, 255, 0.3)',
-                    borderRadius: '20px',
-                    padding: '40px 48px',
-                  }}
-                >
-                  {/* Name and Title */}
-                  <div className="mb-5">
-                    <h3
-                      style={{
-                        fontFamily: 'Apercu Pro',
-                        fontSize: '42px',
-                        fontWeight: 700,
-                        color: '#FFCA2B',
-                        marginBottom: '12px',
-                      }}
-                    >
-                      {member.name}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: 'Apercu Pro',
-                        fontSize: '26px',
-                        fontWeight: 500,
-                        color: 'rgba(255, 255, 255, 0.8)',
-                      }}
-                    >
-                      {member.title}
-                    </p>
-                  </div>
-
-                  {/* Description */}
+                {/* Name and Title */}
+                <div className="mb-5">
+                  <h3
+                    style={{
+                      fontFamily: 'Apercu Pro',
+                      fontSize: 'clamp(28px, 2.5vw, 42px)',
+                      fontWeight: 700,
+                      color: '#FFCA2B',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    {member.name}
+                  </h3>
                   <p
                     style={{
                       fontFamily: 'Apercu Pro',
-                      fontSize: '22px',
-                      fontWeight: 400,
-                      lineHeight: '160%',
-                      color: 'rgba(255, 255, 255, 0.9)',
+                      fontSize: 'clamp(18px, 1.5vw, 26px)',
+                      fontWeight: 500,
+                      color: 'rgba(255, 255, 255, 0.8)',
                     }}
                   >
-                    {member.description}
+                    {member.title}
                   </p>
                 </div>
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontFamily: 'Apercu Pro',
+                    fontSize: 'clamp(16px, 1.2vw, 22px)',
+                    fontWeight: 400,
+                    lineHeight: '160%',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                  }}
+                >
+                  {member.description}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -72,29 +72,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
       }}
     >
       {/* Background Video */}
-      <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: 0.3,
-          }}
-        >
-          <source src="/accidentdetection.mp4" type="video/mp4" />
-        </video>
-        {/* Gradient overlay */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(107.56deg, rgba(0, 0, 0, 0.85) 37.5%, rgba(20, 0, 76, 0.85) 100%)',
-          }}
-        />
-      </div>
+    
 
       {/* Page Number - Outside scaling wrapper */}
       <div 

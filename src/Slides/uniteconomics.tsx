@@ -8,7 +8,6 @@ interface UnitEconomicsSlideProps {
 }
 
 const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevious }) => {
-  const [scale, setScale] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,23 +24,6 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrevious]);
-
-  useEffect(() => {
-    const updateScale = () => {
-      const designWidth = 1920;
-      const designHeight = 1080;
-      
-      const scaleX = window.innerWidth / designWidth;
-      const scaleY = window.innerHeight / designHeight;
-      const newScale = Math.min(scaleX, scaleY, 1);
-      
-      setScale(newScale);
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
 
   const yearData = [
     {
@@ -101,12 +83,12 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
 
   return (
     <div 
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full h-screen overflow-hidden"
       style={{
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
-      {/* Page Number - Outside scaling wrapper */}
+      {/* Page Number */}
       <div 
         className="fixed bottom-8 right-8 text-white z-50"
         style={{
@@ -119,279 +101,291 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
         7
       </div>
 
-      {/* Scaling wrapper */}
+      {/* Content Container */}
       <div 
-        style={{ 
-          transform: `scale(${scale})`,
-          transformOrigin: 'center center',
-          width: '1920px',
-          height: '1080px',
-          position: 'relative',
+        className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12 overflow-y-auto"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
         }}
       >
-        {/* Content Container */}
-        <div className="relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12">
-          {/* Title Section */}
-          <div className="mb-16">
-            <div
-              style={{
-                width: 'fit-content',
-                paddingTop: '8px',
-                paddingBottom: '8px',
-                marginBottom: '40px',
-              }}
-            >
-              <h2 
-                className="text-white"
-                style={{
-                  fontFamily: 'Inter, var(--font-inter)',
-                  fontWeight: 600,
-                  fontSize: '36px',
-                  lineHeight: '44px',
-                  letterSpacing: '0.02em',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                FINANCIAL PROJECTIONS
-              </h2>
-              <div 
-                style={{
-                  borderBottom: '3px solid #FFCA2B',
-                  width: '100%',
-                  marginTop: '8px',
-                }}
-              />
-            </div>
-            
-            <h1 
-              style={{
-                fontFamily: 'Tobias',
-                fontWeight: 500,
-                fontSize: '72px',
-                lineHeight: '86px',
-                letterSpacing: '0px',
-                color: '#FFFFFF',
-              }}
-            >
-              Revenue Breakdown{' '}
-              <span style={{ color: '#FFCA2B' }}>& Margins</span>
-            </h1>
-          </div>
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            width: 8px;
+          }
+          div::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          div::-webkit-scrollbar-thumb {
+            background: rgba(255, 202, 43, 0.3);
+            border-radius: 4px;
+          }
+          div::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 202, 43, 0.5);
+          }
+        `}</style>
 
-          {/* Margin Boxes */}
-          <div 
-            className="flex gap-12 justify-center w-full transition-all duration-1000"
+        {/* Title Section */}
+        <div className="mb-12">
+          <div
             style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-              transitionDelay: '200ms',
+              width: 'fit-content',
+              paddingTop: '8px',
+              paddingBottom: '8px',
+              marginBottom: '40px',
             }}
           >
-            {processedData.map((yearItem, index) => {
-              const revenueSegments = yearItem.breakdownWithPercent.filter(item => item.label !== 'COGS');
-              const cogsItem = yearItem.breakdownWithPercent.find(item => item.label === 'COGS');
+            <h2 
+              className="text-white"
+              style={{
+                fontFamily: 'Inter, var(--font-inter)',
+                fontWeight: 600,
+                fontSize: 'clamp(24px, 2vw, 36px)',
+                lineHeight: '1.2',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              FINANCIAL PROJECTIONS
+            </h2>
+            <div 
+              style={{
+                borderBottom: '3px solid #FFCA2B',
+                width: '100%',
+                marginTop: '8px',
+              }}
+            />
+          </div>
+          
+          <h1 
+            style={{
+              fontFamily: 'Tobias',
+              fontWeight: 500,
+              fontSize: 'clamp(36px, 4vw, 72px)',
+              lineHeight: '1.2',
+              letterSpacing: '0px',
+              color: '#FFFFFF',
+            }}
+          >
+            Revenue Breakdown{' '}
+            <span style={{ color: '#FFCA2B' }}>& Margins</span>
+          </h1>
+        </div>
 
-              return (
-                <div 
-                  key={index}
-                  className="flex flex-col transition-all duration-1000"
+        {/* Margin Boxes */}
+        <div 
+          className="flex gap-12 justify-center w-full transition-all duration-1000"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '200ms',
+            flexWrap: 'wrap',
+          }}
+        >
+          {processedData.map((yearItem, index) => {
+            const revenueSegments = yearItem.breakdownWithPercent.filter(item => item.label !== 'COGS');
+            const cogsItem = yearItem.breakdownWithPercent.find(item => item.label === 'COGS');
+
+            return (
+              <div 
+                key={index}
+                className="flex flex-col transition-all duration-1000"
+                style={{
+                  width: 'clamp(300px, 20vw, 380px)',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'scale(1)' : 'scale(0.95)',
+                  transitionDelay: `${index * 150 + 400}ms`,
+                }}
+              >
+                {/* Gross Profit Percentage Header */}
+                <div
+                  className="text-center mb-3"
                   style={{
-                    width: '380px',
-                    opacity: isVisible ? 1 : 0,
-                    transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-                    transitionDelay: `${index * 150 + 400}ms`,
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: 'clamp(18px, 1.3vw, 24px)',
+                    fontWeight: 700,
+                    color: '#FFCA2B',
                   }}
                 >
-                  {/* Gross Profit Percentage Header */}
+                  {yearItem.grossProfitPercent}% Gross Margin
+                </div>
+
+                {/* Main Box */}
+                <div
+                  style={{
+                    border: '2px solid rgba(164, 179, 255, 0.3)',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  }}
+                >
+                  {/* Revenue Box Profit - Top Section */}
                   <div
-                    className="text-center mb-3"
                     style={{
-                      fontFamily: 'var(--font-inter)',
-                      fontSize: '24px',
-                      fontWeight: 700,
-                      color: '#FFCA2B',
+                      backgroundColor: '#10B981',
+                      padding: 'clamp(16px, 1.5vw, 24px)',
+                      textAlign: 'center',
+                      borderBottom: '2px solid rgba(164, 179, 255, 0.3)',
                     }}
                   >
-                    {yearItem.grossProfitPercent}% Gross Margin
-                  </div>
-
-                  {/* Main Box */}
-                  <div
-                    style={{
-                      border: '2px solid rgba(164, 179, 255, 0.3)',
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    }}
-                  >
-                    {/* Revenue Box Profit - Top Section */}
-                    <div
-                      style={{
-                        backgroundColor: '#10B981',
-                        padding: '24px',
-                        textAlign: 'center',
-                        borderBottom: '2px solid rgba(164, 179, 255, 0.3)',
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-inter)',
-                          fontSize: '28px',
-                          fontWeight: 700,
-                          color: '#FFFFFF',
-                          marginBottom: '4px',
-                        }}
-                      >
-                        ${(yearItem.revenue / 1000000).toFixed(1)}M
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-inter)',
-                          fontSize: '16px',
-                          fontWeight: 500,
-                          color: '#FFFFFF',
-                          opacity: 0.9,
-                        }}
-                      >
-                        Revenue
-                      </div>
-                    </div>
-
-                    {/* Revenue Segments */}
-                    <div style={{ padding: '0' }}>
-                      {revenueSegments.map((segment, segIndex) => {
-                        if (segment.value === 0) return null;
-                        
-                        return (
-                          <div
-                            key={segIndex}
-                            style={{
-                              padding: '18px 24px',
-                              borderBottom: segIndex < revenueSegments.length - 1 ? '1px solid rgba(164, 179, 255, 0.2)' : 'none',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                            }}
-                          >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                              <div
-                                style={{
-                                  width: '16px',
-                                  height: '16px',
-                                  borderRadius: '3px',
-                                  backgroundColor: segment.color,
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontFamily: 'var(--font-inter)',
-                                  fontSize: '16px',
-                                  fontWeight: 500,
-                                  color: '#FFFFFF',
-                                }}
-                              >
-                                {segment.label}
-                              </span>
-                            </div>
-                            <span
-                              style={{
-                                fontFamily: 'var(--font-inter)',
-                                fontSize: '16px',
-                                fontWeight: 600,
-                                color: '#FFFFFF',
-                              }}
-                            >
-                              ${(segment.value / 1000).toFixed(0)}K
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* COGS Section - Gray */}
-                    {cogsItem && (
-                      <div
-                        style={{
-                          backgroundColor: cogsItem.color,
-                          padding: '20px 24px',
-                          borderTop: '2px solid rgba(164, 179, 255, 0.3)',
-                        }}
-                      >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-inter)',
-                              fontSize: '16px',
-                              fontWeight: 600,
-                              color: '#FFFFFF',
-                            }}
-                          >
-                            COGS
-                          </span>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-inter)',
-                              fontSize: '16px',
-                              fontWeight: 600,
-                              color: '#FFFFFF',
-                            }}
-                          >
-                            ${(cogsItem.value / 1000).toFixed(0)}K
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Year Labels */}
-                  <div className="text-center mt-6">
                     <div
                       style={{
                         fontFamily: 'var(--font-inter)',
-                        fontSize: '22px',
+                        fontSize: 'clamp(20px, 1.6vw, 28px)',
                         fontWeight: 700,
                         color: '#FFFFFF',
                         marginBottom: '4px',
                       }}
                     >
-                      {yearItem.year}
+                      ${(yearItem.revenue / 1000000).toFixed(1)}M
                     </div>
                     <div
                       style={{
                         fontFamily: 'var(--font-inter)',
-                        fontSize: '16px',
+                        fontSize: 'clamp(13px, 0.9vw, 16px)',
                         fontWeight: 500,
-                        color: 'rgba(255, 255, 255, 0.7)',
+                        color: '#FFFFFF',
+                        opacity: 0.9,
                       }}
                     >
-                      {yearItem.period}
+                      Revenue
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
 
-          {/* Footer Note */}
-          <div
-            className="text-center w-full mt-12 transition-all duration-1000"
+                  {/* Revenue Segments */}
+                  <div style={{ padding: '0' }}>
+                    {revenueSegments.map((segment, segIndex) => {
+                      if (segment.value === 0) return null;
+                      
+                      return (
+                        <div
+                          key={segIndex}
+                          style={{
+                            padding: 'clamp(14px, 1vw, 18px) clamp(16px, 1.5vw, 24px)',
+                            borderBottom: segIndex < revenueSegments.length - 1 ? '1px solid rgba(164, 179, 255, 0.2)' : 'none',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div
+                              style={{
+                                width: 'clamp(12px, 0.9vw, 16px)',
+                                height: 'clamp(12px, 0.9vw, 16px)',
+                                borderRadius: '3px',
+                                backgroundColor: segment.color,
+                              }}
+                            />
+                            <span
+                              style={{
+                                fontFamily: 'var(--font-inter)',
+                                fontSize: 'clamp(13px, 0.9vw, 16px)',
+                                fontWeight: 500,
+                                color: '#FFFFFF',
+                              }}
+                            >
+                              {segment.label}
+                            </span>
+                          </div>
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-inter)',
+                              fontSize: 'clamp(13px, 0.9vw, 16px)',
+                              fontWeight: 600,
+                              color: '#FFFFFF',
+                            }}
+                          >
+                            ${(segment.value / 1000).toFixed(0)}K
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* COGS Section - Gray */}
+                  {cogsItem && (
+                    <div
+                      style={{
+                        backgroundColor: cogsItem.color,
+                        padding: 'clamp(16px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)',
+                        borderTop: '2px solid rgba(164, 179, 255, 0.3)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-inter)',
+                            fontSize: 'clamp(13px, 0.9vw, 16px)',
+                            fontWeight: 600,
+                            color: '#FFFFFF',
+                          }}
+                        >
+                          COGS
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-inter)',
+                            fontSize: 'clamp(13px, 0.9vw, 16px)',
+                            fontWeight: 600,
+                            color: '#FFFFFF',
+                          }}
+                        >
+                          ${(cogsItem.value / 1000).toFixed(0)}K
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Year Labels */}
+                <div className="text-center mt-6">
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-inter)',
+                      fontSize: 'clamp(18px, 1.2vw, 22px)',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    {yearItem.year}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-inter)',
+                      fontSize: 'clamp(13px, 0.9vw, 16px)',
+                      fontWeight: 500,
+                      color: 'rgba(255, 255, 255, 0.7)',
+                    }}
+                  >
+                    {yearItem.period}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Footer Note */}
+        <div
+          className="text-center w-full mt-12 transition-all duration-1000"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transitionDelay: '1200ms',
+          }}
+        >
+          <p
             style={{
-              opacity: isVisible ? 1 : 0,
-              transitionDelay: '1200ms',
+              fontFamily: 'var(--font-inter)',
+              fontSize: 'clamp(12px, 0.8vw, 14px)',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontStyle: 'italic',
             }}
           >
-            <p
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '14px',
-                color: 'rgba(255, 255, 255, 0.5)',
-                fontStyle: 'italic',
-              }}
-            >
-              COGS = Cost of Goods Sold | (E) = Estimated
-            </p>
-          </div>
+            COGS = Cost of Goods Sold | (E) = Estimated
+          </p>
         </div>
       </div>
     </div>
