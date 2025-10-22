@@ -10,6 +10,22 @@ interface RevenueProjectionSlideProps {
 
 const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext, onPrevious }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  const data = [
+    { year: '1', mobility: 100000, government: 20000, insurance: 20000 },
+    { year: '2', mobility: 5000000, government: 3346667, insurance: 244949 },
+    { year: '3', mobility: 19000000, government: 6673334, insurance: 3000000 },
+    { year: '4', mobility: 50000000, government: 10000001, insurance: 4500000 },
+    { year: '5', mobility: 65000000, government: 17000002, insurance: 7650000 },
+    { year: '6', mobility: 84500000, government: 28900003, insurance: 13005000 },
+    { year: '7', mobility: 109850000, government: 49130005, insurance: 22108500 },
+    { year: '8', mobility: 142805000, government: 83521008, insurance: 37584450 },
+    { year: '9', mobility: 185646500, government: 141984714, insurance: 63894565 },
+    { year: '10', mobility: 241340450, government: 241374012, insurance: 108621761 },
+  ];
 
   useEffect(() => {
     setTimeout(() => setIsVisible(true), 100);
@@ -26,18 +42,24 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onNext, onPrevious]);
 
-  const data = [
-    { year: '1', mobility: 100000, government: 20000, insurance: 20000 },
-    { year: '2', mobility: 5000000, government: 3346667, insurance: 244949 },
-    { year: '3', mobility: 19000000, government: 6673334, insurance: 3000000 },
-    { year: '4', mobility: 50000000, government: 10000001, insurance: 4500000 },
-    { year: '5', mobility: 65000000, government: 17000002, insurance: 7650000 },
-    { year: '6', mobility: 84500000, government: 28900003, insurance: 13005000 },
-    { year: '7', mobility: 109850000, government: 49130005, insurance: 22108500 },
-    { year: '8', mobility: 142805000, government: 83521008, insurance: 37584450 },
-    { year: '9', mobility: 185646500, government: 141984714, insurance: 63894565 },
-    { year: '10', mobility: 241340450, government: 241374012, insurance: 108621761 },
-  ];
+  // Auto-play animation effect
+  useEffect(() => {
+    if (!isAutoPlaying || hasUserInteracted) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => {
+        if (prevIndex === null) return 0;
+        const nextIndex = prevIndex + 1;
+        if (nextIndex >= data.length) {
+          // Loop back to start
+          return 0;
+        }
+        return nextIndex;
+      });
+    }, 1500); // Change year every 1.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, hasUserInteracted, data.length]);
 
   const formatYAxis = (value: number) => {
     if (value >= 1000000) {
@@ -55,6 +77,69 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
       return `$${(value / 1000).toFixed(2)}K`;
     }
     return `$${value.toLocaleString()}`;
+  };
+
+  // Custom tooltip component that shows total
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0);
+      
+      return (
+        <div
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            border: '2px solid #FFCA2B',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            fontFamily: 'Inter',
+          }}
+        >
+          <p
+            style={{
+              color: '#FFCA2B',
+              fontWeight: 700,
+              fontSize: 'clamp(16px, 1.2vw, 20px)',
+              marginBottom: '12px',
+              borderBottom: '1px solid rgba(255, 202, 43, 0.3)',
+              paddingBottom: '8px',
+            }}
+          >
+            Year {label}
+          </p>
+          {payload.map((entry: any, index: number) => (
+            <p
+              key={index}
+              style={{
+                color: entry.color,
+                fontSize: 'clamp(14px, 1vw, 16px)',
+                margin: '6px 0',
+                fontWeight: 500,
+              }}
+            >
+              <span style={{ fontWeight: 600 }}>{entry.name}:</span> {formatTooltip(entry.value)}
+            </p>
+          ))}
+          <div
+            style={{
+              borderTop: '2px solid #FFCA2B',
+              marginTop: '10px',
+              paddingTop: '10px',
+            }}
+          >
+            <p
+              style={{
+                color: '#FFCA2B',
+                fontSize: 'clamp(15px, 1.1vw, 18px)',
+                fontWeight: 700,
+              }}
+            >
+              Total Revenue: {formatTooltip(total)}
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -164,6 +249,23 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           >
             Structured Sales Growth Across Key Verticals
           </p>
+          {!hasUserInteracted && (
+            <p
+              style={{
+                fontFamily: 'Inter',
+                fontSize: 'clamp(14px, 1.2vw, 16px)',
+                fontWeight: 500,
+                lineHeight: '1.5',
+                color: 'rgba(255, 202, 43, 0.7)',
+                marginTop: 'clamp(12px, 1.5vh, 16px)',
+                fontStyle: 'italic',
+                opacity: isAutoPlaying ? 1 : 0,
+                transition: 'opacity 0.5s ease',
+              }}
+            >
+              💡 Hover over the chart to explore each year's revenue breakdown
+            </p>
+          )}
         </div>
 
         {/* Chart Container */}
@@ -171,20 +273,38 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           className="w-full transition-all duration-1000"
           style={{
             maxWidth: '100%',
-            height: 'clamp(350px, 45vh, 550px)',
-            maxHeight: '550px',
-            minHeight: '350px',
+            height: 'clamp(500px, 60vh, 700px)',
+            maxHeight: '700px',
+            minHeight: '500px',
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
             transitionDelay: '200ms',
             background: 'rgba(0, 0, 0, 0.4)',
             border: '2px solid rgba(164, 179, 255, 0.3)',
             borderRadius: 'clamp(16px, 1.5vw, 20px)',
-            padding: 'clamp(24px, 2.5vh, 40px) clamp(24px, 2.5vw, 50px)',
+            padding: 'clamp(32px, 3vh, 50px) clamp(32px, 3vw, 60px)',
+          }}
+          onMouseEnter={() => {
+            setIsAutoPlaying(false);
+            setHasUserInteracted(true);
+          }}
+          onMouseLeave={() => {
+            setActiveIndex(null);
           }}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 20, right: 30, left: 60, bottom: 20 }}>
+            <AreaChart 
+              data={data} 
+              margin={{ top: 20, right: 30, left: 60, bottom: 20 }}
+              onMouseMove={(state) => {
+                if (state && state.isTooltipActive && hasUserInteracted) {
+                  const index = state.activeTooltipIndex;
+                  if (typeof index === 'number') {
+                    setActiveIndex(index);
+                  }
+                }
+              }}
+            >
               <defs>
                 {/* Gradient for Mobility */}
                 <linearGradient id="colorMobility" x1="0" y1="0" x2="0" y2="1">
@@ -234,17 +354,17 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
                 tick={{ fill: 'rgba(255, 255, 255, 0.8)' }}
               />
               <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'rgba(0, 0, 0, 0.95)', 
-                  border: '2px solid #FFCA2B',
-                  borderRadius: '12px',
-                  fontFamily: 'Inter',
-                  fontSize: 'clamp(13px, 0.95vw, 16px)',
-                  padding: '12px 16px'
-                }}
-                labelStyle={{ color: '#FFCA2B', fontWeight: 700, fontSize: 'clamp(14px, 1.1vw, 18px)', marginBottom: '8px' }}
-                itemStyle={{ color: '#FFFFFF', fontSize: 'clamp(13px, 0.95vw, 16px)', padding: '4px 0' }}
-                formatter={(value: number) => formatTooltip(value)}
+                content={<CustomTooltip />}
+                active={activeIndex !== null}
+                {...(activeIndex !== null && {
+                  coordinate: undefined,
+                  payload: [
+                    { name: 'Mobility', value: data[activeIndex].mobility, color: '#FFD700' },
+                    { name: "Gov't", value: data[activeIndex].government, color: '#FF6347' },
+                    { name: 'Insurance/PI Firms', value: data[activeIndex].insurance, color: '#FFB6C1' }
+                  ],
+                  label: data[activeIndex].year
+                })}
               />
               <Legend 
                 wrapperStyle={{ 
@@ -286,79 +406,6 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
             </AreaChart>
             
           </ResponsiveContainer>
-        </div>
-
-        {/* Total Revenue Section */}
-        <div 
-          className="w-full transition-all duration-1000"
-          style={{
-            marginTop: 'clamp(32px, 4vh, 48px)',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-            transitionDelay: '400ms',
-          }}
-        >
-          <h3 
-            style={{
-              fontFamily: 'Inter',
-              fontWeight: 700,
-              fontSize: 'clamp(20px, 1.8vw, 28px)',
-              color: '#FFCA2B',
-              marginBottom: 'clamp(16px, 2vh, 24px)',
-              letterSpacing: '0.01em',
-            }}
-          >
-            Total Revenue by Year
-          </h3>
-          <div 
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(120px, 15vw, 180px), 1fr))',
-              gap: 'clamp(12px, 1.5vw, 20px)',
-              background: 'rgba(0, 0, 0, 0.4)',
-              border: '2px solid rgba(255, 202, 43, 0.3)',
-              borderRadius: 'clamp(12px, 1.2vw, 16px)',
-              padding: 'clamp(20px, 2.5vh, 32px)',
-            }}
-          >
-            {data.map((yearData) => {
-              const total = yearData.mobility + yearData.government + yearData.insurance;
-              return (
-                <div 
-                  key={yearData.year}
-                  style={{
-                    textAlign: 'center',
-                    padding: 'clamp(12px, 1.5vh, 16px)',
-                    background: 'rgba(255, 202, 43, 0.1)',
-                    borderRadius: 'clamp(8px, 0.8vw, 12px)',
-                    border: '1px solid rgba(255, 202, 43, 0.2)',
-                  }}
-                >
-                  <div 
-                    style={{
-                      fontFamily: 'Inter',
-                      fontSize: 'clamp(13px, 1.1vw, 16px)',
-                      fontWeight: 600,
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      marginBottom: 'clamp(6px, 0.8vh, 8px)',
-                    }}
-                  >
-                    Year {yearData.year}
-                  </div>
-                  <div 
-                    style={{
-                      fontFamily: 'Inter',
-                      fontSize: 'clamp(16px, 1.4vw, 22px)',
-                      fontWeight: 700,
-                      color: '#FFCA2B',
-                    }}
-                  >
-                    {formatTooltip(total)}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
     </div>
