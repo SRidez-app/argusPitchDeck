@@ -57,14 +57,6 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
     return `$${value.toLocaleString()}`;
   };
 
-  const formatCurrency = (value: number) => {
-    return `$${value.toLocaleString()}`;
-  };
-
-  const calculateTotal = (row: typeof data[0]) => {
-    return row.mobility + row.government + row.insurance;
-  };
-
   return (
     <div 
       className="relative w-full h-screen overflow-hidden"
@@ -72,35 +64,6 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
         background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
-      <style jsx>{`
-        .content-container::-webkit-scrollbar {
-          width: 8px;
-        }
-        .content-container::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .content-container::-webkit-scrollbar-thumb {
-          background: rgba(255, 202, 43, 0.3);
-          border-radius: 4px;
-        }
-        .content-container::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 202, 43, 0.5);
-        }
-        .totals-scroll::-webkit-scrollbar {
-          width: 6px;
-        }
-        .totals-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .totals-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255, 202, 43, 0.3);
-          border-radius: 3px;
-        }
-        .totals-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 202, 43, 0.5);
-        }
-      `}</style>
-
       {/* Page Number */}
       <div 
         className="fixed bottom-8 right-8 text-white z-50"
@@ -116,12 +79,29 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
 
       {/* Content Container */}
       <div 
-        className="content-container relative w-full h-full flex flex-col items-start justify-start px-12 pt-8 pb-12 overflow-y-auto"
+        className="relative w-full h-full flex flex-col items-start justify-start overflow-y-auto"
         style={{
+          padding: 'clamp(32px, 4vh, 64px) clamp(48px, 5vw, 96px)',
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
         }}
       >
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            width: 8px;
+          }
+          div::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          div::-webkit-scrollbar-thumb {
+            background: rgba(255, 202, 43, 0.3);
+            border-radius: 4px;
+          }
+          div::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 202, 43, 0.5);
+          }
+        `}</style>
+
         {/* Title Section */}
         <div 
           className="mb-8 w-full"
@@ -199,7 +179,6 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
             border: '2px solid rgba(164, 179, 255, 0.3)',
             borderRadius: 'clamp(16px, 1.5vw, 20px)',
             padding: 'clamp(24px, 2.5vh, 50px) clamp(32px, 3vw, 60px)',
-            marginBottom: 'clamp(24px, 3vh, 40px)',
           }}
         >
           <ResponsiveContainer width="100%" height="100%">
@@ -247,7 +226,8 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
                   fill: 'rgba(255, 255, 255, 0.8)',
                   fontSize: 'clamp(15px, 1.2vw, 18px)',
                   fontWeight: 600,
-                  dx: -45
+                      dx: -45
+             
                 }}
                 tick={{ fill: 'rgba(255, 255, 255, 0.8)' }}
               />
@@ -302,63 +282,8 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
                 name="Insurance/PI Firms"
               />
             </AreaChart>
+            
           </ResponsiveContainer>
-        </div>
-
-        {/* Totals Section */}
-        <div 
-          className="w-full transition-all duration-1000"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-            transitionDelay: '400ms',
-          }}
-        >
-          <div
-            className="totals-scroll"
-            style={{
-              maxHeight: 'clamp(150px, 18vh, 200px)',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'rgba(255, 202, 43, 0.3) transparent',
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1vh, 12px)' }}>
-              {data.map((row) => (
-                <div
-                  key={row.year}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'clamp(16px, 2vw, 24px)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'Inter',
-                      fontSize: 'clamp(14px, 1.2vw, 18px)',
-                      fontWeight: 600,
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      minWidth: 'clamp(60px, 6vw, 80px)',
-                    }}
-                  >
-                    Year {row.year}:
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: 'Inter',
-                      fontSize: 'clamp(14px, 1.2vw, 18px)',
-                      fontWeight: 700,
-                      color: '#FFCA2B',
-                    }}
-                  >
-                    {formatCurrency(calculateTotal(row))}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
