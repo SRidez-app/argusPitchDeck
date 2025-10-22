@@ -171,14 +171,16 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           className="w-full transition-all duration-1000"
           style={{
             maxWidth: '100%',
-            height: 'clamp(450px, 55vh, 650px)',
+            height: 'clamp(350px, 45vh, 550px)',
+            maxHeight: '550px',
+            minHeight: '350px',
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
             transitionDelay: '200ms',
             background: 'rgba(0, 0, 0, 0.4)',
             border: '2px solid rgba(164, 179, 255, 0.3)',
             borderRadius: 'clamp(16px, 1.5vw, 20px)',
-            padding: 'clamp(24px, 2.5vh, 50px) clamp(32px, 3vw, 60px)',
+            padding: 'clamp(24px, 2.5vh, 40px) clamp(24px, 2.5vw, 50px)',
           }}
         >
           <ResponsiveContainer width="100%" height="100%">
@@ -284,6 +286,79 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
             </AreaChart>
             
           </ResponsiveContainer>
+        </div>
+
+        {/* Total Revenue Section */}
+        <div 
+          className="w-full transition-all duration-1000"
+          style={{
+            marginTop: 'clamp(32px, 4vh, 48px)',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '400ms',
+          }}
+        >
+          <h3 
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: 700,
+              fontSize: 'clamp(20px, 1.8vw, 28px)',
+              color: '#FFCA2B',
+              marginBottom: 'clamp(16px, 2vh, 24px)',
+              letterSpacing: '0.01em',
+            }}
+          >
+            Total Revenue by Year
+          </h3>
+          <div 
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(120px, 15vw, 180px), 1fr))',
+              gap: 'clamp(12px, 1.5vw, 20px)',
+              background: 'rgba(0, 0, 0, 0.4)',
+              border: '2px solid rgba(255, 202, 43, 0.3)',
+              borderRadius: 'clamp(12px, 1.2vw, 16px)',
+              padding: 'clamp(20px, 2.5vh, 32px)',
+            }}
+          >
+            {data.map((yearData) => {
+              const total = yearData.mobility + yearData.government + yearData.insurance;
+              return (
+                <div 
+                  key={yearData.year}
+                  style={{
+                    textAlign: 'center',
+                    padding: 'clamp(12px, 1.5vh, 16px)',
+                    background: 'rgba(255, 202, 43, 0.1)',
+                    borderRadius: 'clamp(8px, 0.8vw, 12px)',
+                    border: '1px solid rgba(255, 202, 43, 0.2)',
+                  }}
+                >
+                  <div 
+                    style={{
+                      fontFamily: 'Inter',
+                      fontSize: 'clamp(13px, 1.1vw, 16px)',
+                      fontWeight: 600,
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      marginBottom: 'clamp(6px, 0.8vh, 8px)',
+                    }}
+                  >
+                    Year {yearData.year}
+                  </div>
+                  <div 
+                    style={{
+                      fontFamily: 'Inter',
+                      fontSize: 'clamp(16px, 1.4vw, 22px)',
+                      fontWeight: 700,
+                      color: '#FFCA2B',
+                    }}
+                  >
+                    {formatTooltip(total)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
