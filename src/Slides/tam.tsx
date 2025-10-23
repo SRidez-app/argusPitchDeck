@@ -34,7 +34,7 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
       som: 4,
       cagr: 15,
       icon: <TrendingUp size={48} strokeWidth={2.5} />,
-      highlight: false,
+      highlight: true,
       salesCycle: 'Weeks - Fast moving, tech-enabled',
     },
     {
@@ -44,7 +44,7 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
       som: 2.5,
       cagr: 5,
       icon: <DollarSign size={48} strokeWidth={2.5} />,
-      highlight: true,
+      highlight: false,
       salesCycle: '6-18 months - POC dependent',
     },
     {

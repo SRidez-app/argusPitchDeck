@@ -27,13 +27,14 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
 
   const competitors = [
     {
-      name: 'Traffic Cam Archive',
-      storage: '90 days',
+      name: 'Rekkor ',
+      storage: 'N/A',
       apiSearch: false,
-      aiDetection: false,
-      dotCapability: false,
+      aiDetection: true,
+      dotCapability: true,
       aiForecast: false,
       isArgus: false,
+      apiAlert: false,
     },
     {
       name: 'Road Proof',
@@ -43,6 +44,7 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
       dotCapability: false,
       aiForecast: false,
       isArgus: false,
+      apiAlert: false,
     },
     {
       name: 'ARGUS AI',
@@ -52,6 +54,7 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
       dotCapability: true,
       aiForecast: true,
       isArgus: true,
+      apiAlert: true,
     },
   ];
 
@@ -165,8 +168,7 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
             transitionDelay: '200ms',
           }}
         >
-          <table style={{ width: '100%', borderCollapse: 'collapse',
-  border: '2px solid rgba(255, 255, 255, 1)', }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid rgba(255, 255, 255, 1)', }}>
             <thead>
               <tr style={{ background: 'rgba(0, 0, 0, 0.6)' }}>
                 <th style={{ 
@@ -231,8 +233,20 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
                   fontFamily: 'Inter, var(--font-inter)',
                   fontSize: 'clamp(12px, 0.9vw, 16px)',
                   fontWeight: 600,
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
                 }}>
                   AI Traffic Forecast
+                </th>
+                 
+                <th style={{ 
+                  padding: 'clamp(12px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)', 
+                  textAlign: 'center', 
+                  color: 'white',
+                  fontFamily: 'Inter, var(--font-inter)',
+                  fontSize: 'clamp(12px, 0.9vw, 16px)',
+                  fontWeight: 600,
+                }}>
+                  Traffic Alert API
                 </th>
               </tr>
             </thead>
@@ -303,12 +317,22 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
                   }}>
                     {competitor.aiForecast ? '✓' : '✗'}
                   </td>
+                  {/* Traffic Alert API Column - FIXED */}
+                  <td style={{ 
+                    padding: 'clamp(16px, 1.5vw, 24px)', 
+                    textAlign: 'center',
+                    fontSize: 'clamp(24px, 1.8vw, 32px)',
+                    fontWeight: 900,
+                    color: competitor.apiAlert ? '#0AEB2C' : '#DC3545',
+                  }}>
+                    {competitor.apiAlert ? '✓' : '✗'}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-     {/* Callout */}
+          {/* Callout */}
           <div
             className="mt-16 transition-all duration-1000"
             style={{

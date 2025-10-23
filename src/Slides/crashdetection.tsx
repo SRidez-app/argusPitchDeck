@@ -164,7 +164,7 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
                 color: '#FFFFFF',
               }}
             >
-              We collect vast data to train our AI to predict normal road conditions and detect anomalies. AI detects, confirms, sends, send alerts and severity forecasts.
+              Argus AI streams, detects and alerts instantly on live traffic steams.  Our IP and technology can notify 911/PSAPS before cars come to rest!  This is revolutionary and unparalleled in the market.
             </p>
           </div>
 

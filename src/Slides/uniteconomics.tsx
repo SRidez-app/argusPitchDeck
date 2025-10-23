@@ -345,29 +345,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                     </span>
                   </div>
 
-                  {/* Margin Segment (Top) */}
-                  <div
-                    style={{
-                      flex: `0 0 ${yearItem.marginPercent}%`,
-                      backgroundColor: '#10B981',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      padding: '16px 8px',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: 'clamp(11px, 1vw, 14px)',
-                        fontWeight: 600,
-                        color: '#FFFFFF',
-                      }}
-                    >
-                      Margin
-                    </span>
-                  </div>
+               
                 </div>
 
                 {/* Year Labels */}
