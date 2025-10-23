@@ -28,16 +28,6 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
 
   const marketData = [
     {
-      vertical: 'Auto Insurance',
-      tam: 1400,
-      sam: 250,
-      som: 2.5,
-      cagr: 5,
-      icon: <DollarSign size={48} strokeWidth={2.5} />,
-      highlight: true,
-      salesCycle: '6-18 months - POC dependent',
-    },
-    {
       vertical: 'Mobility & Navigation',
       tam: 250,
       sam: 80,
@@ -48,7 +38,17 @@ const TamSlide: React.FC<TamSlideProps> = ({ onNext, onPrevious }) => {
       salesCycle: 'Weeks - Fast moving, tech-enabled',
     },
     {
-      vertical: 'Public-Sector Tech',
+      vertical: 'Auto Insurance',
+      tam: 1400,
+      sam: 250,
+      som: 2.5,
+      cagr: 5,
+      icon: <DollarSign size={48} strokeWidth={2.5} />,
+      highlight: true,
+      salesCycle: '6-18 months - POC dependent',
+    },
+    {
+      vertical: 'Government',
       tam: 30,
       sam: 15,
       som: 0.5,
