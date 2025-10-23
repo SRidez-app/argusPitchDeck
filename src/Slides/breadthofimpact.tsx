@@ -33,7 +33,7 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
       impact: 'Impacting lives and serious medical injuries.',
     },
     {
-      problem: 'Traffic Ops Monitor 1000s of Cams Manually',
+      problem: 'Traffic Ops Monitor 1000s of Cameras Manually',
       impact: 'Missing incidents leading to more congestion.',
     },
     {
@@ -95,7 +95,7 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
         `}</style>
 
         {/* Title Section */}
-        <div className="mb-8">
+        <div className="mb-25">
           <div
             style={{
               width: 'fit-content',
@@ -167,7 +167,7 @@ const BreadthOfImpactSlide: React.FC<BreadthOfImpactSlideProps> = ({ onNext, onP
             </h3>
           </div>
           <div style={{ width: 'clamp(60px, 5vw, 100px)' }} />
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, paddingLeft: 70 }}>
             <h3
               style={{
                 fontFamily: 'Inter, var(--font-inter)',

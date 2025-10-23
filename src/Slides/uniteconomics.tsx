@@ -29,55 +29,48 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
     {
       year: 'Year 1',
       period: 'Current',
-      totalRevenue: 640000,
-      breakdown: [
-        { label: 'COGS', value: 150000, color: '#808080' },
-        { label: 'Government', value: 0, color: '#B8860B' },
-        { label: 'Insurance', value: 140000, color: '#DAA520' },
-        { label: 'Mobility', value: 500000, color: '#FFD700' },
-      ],
+      cogs: 150000,
+      government: 0,
+      mobility: 500000,
     },
     {
       year: 'Year 2',
       period: '2025 (E)',
-      totalRevenue: 21400000,
-      breakdown: [
-        { label: 'COGS', value: 200000, color: '#808080' },
-        { label: 'Government', value: 500000, color: '#B8860B' },
-        { label: 'Insurance', value: 700000, color: '#DAA520' },
-        { label: 'Mobility', value: 20000000, color: '#FFD700' },
-      ],
+      cogs: 200000,
+      government: 500000,
+      mobility: 20000000,
     },
     {
       year: 'Year 4',
       period: '2027 (E)',
-      totalRevenue: 55950000,
-      breakdown: [
-        { label: 'COGS', value: 250000, color: '#808080' },
-        { label: 'Government', value: 1500000, color: '#B8860B' },
-        { label: 'Insurance', value: 4200000, color: '#DAA520' },
-        { label: 'Mobility', value: 50000000, color: '#FFD700' },
-      ],
+      cogs: 250000,
+      government: 1500000,
+      mobility: 50000000,
     },
   ];
 
-  // Calculate percentages and gross profit
+  // Process data for each year
   const processedData = yearData.map(year => {
-    const cogs = year.breakdown[0].value;
-    const revenue = year.totalRevenue - cogs;
-    const grossProfit = revenue - cogs;
-    const grossProfitPercent = ((grossProfit / revenue) * 100).toFixed(0);
+    const totalRevenue = year.government + year.mobility;
+    const grossProfit = totalRevenue - year.cogs;
+    const totalWithCogs = totalRevenue + year.cogs;
+    const grossMarginPercent = ((grossProfit / totalRevenue) * 100).toFixed(0);
     
-    const breakdownWithPercent = year.breakdown.map(item => ({
-      ...item,
-      percentage: ((item.value / year.totalRevenue) * 100).toFixed(1),
-    }));
+    // Calculate percentages for bar segments
+    const cogsPercent = (year.cogs / totalWithCogs) * 100;
+    const govPercent = (year.government / totalWithCogs) * 100;
+    const mobilityPercent = (year.mobility / totalWithCogs) * 100;
+    const marginPercent = (grossProfit / totalWithCogs) * 100;
 
     return {
       ...year,
-      breakdownWithPercent,
-      grossProfitPercent,
-      revenue,
+      totalRevenue,
+      grossProfit,
+      grossMarginPercent,
+      cogsPercent,
+      govPercent,
+      mobilityPercent,
+      marginPercent,
     };
   });
 
@@ -126,7 +119,12 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
         `}</style>
 
         {/* Title Section */}
-        <div className="mb-12">
+        <div 
+          className="mb-20"
+          style={{
+            marginBottom: 'clamp(160px, 10vh, 120px)',
+          }}
+        >
           <div
             style={{
               width: 'fit-content',
@@ -172,171 +170,213 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
           </h1>
         </div>
 
-        {/* Margin Boxes */}
+        {/* Vertical Bar Charts */}
         <div 
-          className="flex gap-12 justify-center w-full transition-all duration-1000"
+          className="flex justify-center items-end gap-16 w-full max-w-6xl mx-auto transition-all duration-1000"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
             transitionDelay: '200ms',
-            flexWrap: 'wrap',
+            height: 'clamp(400px, 50vh, 600px)',
           }}
         >
           {processedData.map((yearItem, index) => {
-            const revenueSegments = yearItem.breakdownWithPercent.filter(item => item.label !== 'COGS');
-            const cogsItem = yearItem.breakdownWithPercent.find(item => item.label === 'COGS');
-
+            // Calculate heights as percentages of total (revenue + cogs)
+            const maxTotal = Math.max(...processedData.map(d => d.totalRevenue + d.cogs));
+            const totalHeight = ((yearItem.totalRevenue + yearItem.cogs) / maxTotal) * 100;
+            
             return (
               <div 
                 key={index}
-                className="flex flex-col transition-all duration-1000"
+                className="flex flex-col items-center transition-all duration-1000"
                 style={{
-                  width: 'clamp(300px, 20vw, 380px)',
                   opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-                  transitionDelay: `${index * 150 + 400}ms`,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                  transitionDelay: `${index * 200 + 400}ms`,
+                  width: 'clamp(140px, 15vw, 220px)',
                 }}
               >
-                {/* Gross Profit Percentage Header */}
+                {/* Gross Margin Label at Top */}
                 <div
-                  className="text-center mb-3"
+                  className="text-center mb-4"
                   style={{
                     fontFamily: 'var(--font-inter)',
-                    fontSize: 'clamp(18px, 1.3vw, 24px)',
+                    fontSize: 'clamp(16px, 1.3vw, 22px)',
                     fontWeight: 700,
                     color: '#FFCA2B',
                   }}
                 >
-                  {yearItem.grossProfitPercent}% Gross Margin
+                  {yearItem.grossMarginPercent}% Margin
                 </div>
 
-                {/* Main Box */}
+                {/* Vertical Stacked Bar */}
                 <div
                   style={{
-                    border: '2px solid rgba(164, 179, 255, 0.3)',
-                    borderRadius: '12px',
+                    width: '100%',
+                    height: `${totalHeight}%`,
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                    borderRadius: '8px',
                     overflow: 'hidden',
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    border: '2px solid rgba(164, 179, 255, 0.3)',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                    minHeight: '200px',
                   }}
                 >
-                  {/* Revenue Box Profit - Top Section */}
+                  {/* COGS Segment (Bottom) */}
                   <div
                     style={{
-                      backgroundColor: '#10B981',
-                      padding: 'clamp(16px, 1.5vw, 24px)',
-                      textAlign: 'center',
-                      borderBottom: '2px solid rgba(164, 179, 255, 0.3)',
+                      flex: `0 0 ${(yearItem.cogs / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      backgroundColor: '#6B7280',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: '16px 8px',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                      minHeight: '80px',
                     }}
                   >
-                    <div
+                    <span
                       style={{
                         fontFamily: 'var(--font-inter)',
-                        fontSize: 'clamp(20px, 1.6vw, 28px)',
+                        fontSize: 'clamp(11px, 1vw, 14px)',
+                        fontWeight: 600,
+                        color: '#FFFFFF',
+                        marginBottom: '6px',
+                      }}
+                    >
+                      COGS
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: 'clamp(13px, 1.1vw, 16px)',
                         fontWeight: 700,
                         color: '#FFFFFF',
-                        marginBottom: '4px',
                       }}
                     >
-                      ${(yearItem.revenue / 1000000).toFixed(1)}M
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: 'clamp(13px, 0.9vw, 16px)',
-                        fontWeight: 500,
-                        color: '#FFFFFF',
-                        opacity: 0.9,
-                      }}
-                    >
-                      Revenue
-                    </div>
+                      ${yearItem.cogs >= 1000000 
+                        ? `${(yearItem.cogs / 1000000).toFixed(1)}M`
+                        : `${(yearItem.cogs / 1000).toFixed(0)}K`}
+                    </span>
                   </div>
 
-                  {/* Revenue Segments */}
-                  <div style={{ padding: '0' }}>
-                    {revenueSegments.map((segment, segIndex) => {
-                      if (segment.value === 0) return null;
-                      
-                      return (
-                        <div
-                          key={segIndex}
-                          style={{
-                            padding: 'clamp(14px, 1vw, 18px) clamp(16px, 1.5vw, 24px)',
-                            borderBottom: segIndex < revenueSegments.length - 1 ? '1px solid rgba(164, 179, 255, 0.2)' : 'none',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <div
-                              style={{
-                                width: 'clamp(12px, 0.9vw, 16px)',
-                                height: 'clamp(12px, 0.9vw, 16px)',
-                                borderRadius: '3px',
-                                backgroundColor: segment.color,
-                              }}
-                            />
-                            <span
-                              style={{
-                                fontFamily: 'var(--font-inter)',
-                                fontSize: 'clamp(13px, 0.9vw, 16px)',
-                                fontWeight: 500,
-                                color: '#FFFFFF',
-                              }}
-                            >
-                              {segment.label}
-                            </span>
-                          </div>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-inter)',
-                              fontSize: 'clamp(13px, 0.9vw, 16px)',
-                              fontWeight: 600,
-                              color: '#FFFFFF',
-                            }}
-                          >
-                            ${(segment.value / 1000).toFixed(0)}K
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* COGS Section - Gray */}
-                  {cogsItem && (
+                  {/* Government Segment */}
+                  {yearItem.government > 0 && (
                     <div
                       style={{
-                        backgroundColor: cogsItem.color,
-                        padding: 'clamp(16px, 1.2vw, 20px) clamp(16px, 1.5vw, 24px)',
-                        borderTop: '2px solid rgba(164, 179, 255, 0.3)',
+                        flex: `0 0 ${(yearItem.government / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                        backgroundColor: '#B8860B',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '16px 8px',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                        minHeight: '70px',
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-inter)',
-                            fontSize: 'clamp(13px, 0.9vw, 16px)',
-                            fontWeight: 600,
-                            color: '#FFFFFF',
-                          }}
-                        >
-                          COGS
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-inter)',
-                            fontSize: 'clamp(13px, 0.9vw, 16px)',
-                            fontWeight: 600,
-                            color: '#FFFFFF',
-                          }}
-                        >
-                          ${(cogsItem.value / 1000).toFixed(0)}K
-                        </span>
-                      </div>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-inter)',
+                          fontSize: 'clamp(10px, 0.9vw, 13px)',
+                          fontWeight: 600,
+                          color: '#FFFFFF',
+                          marginBottom: '6px',
+                        }}
+                      >
+                        Government
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-inter)',
+                          fontSize: 'clamp(13px, 1.1vw, 16px)',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                        }}
+                      >
+                        ${yearItem.government >= 1000000 
+                          ? `${(yearItem.government / 1000000).toFixed(1)}M`
+                          : `${(yearItem.government / 1000).toFixed(0)}K`}
+                      </span>
                     </div>
                   )}
+
+                  {/* Mobility Segment */}
+                  <div
+                    style={{
+                      flex: `0 0 ${(yearItem.mobility / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      backgroundColor: '#FFD700',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: '16px 8px',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: 'clamp(11px, 1vw, 14px)',
+                        fontWeight: 600,
+                        color: '#1F2937',
+                        marginBottom: '6px',
+                      }}
+                    >
+                      Mobility
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: 'clamp(13px, 1.1vw, 16px)',
+                        fontWeight: 700,
+                        color: '#1F2937',
+                      }}
+                    >
+                      ${yearItem.mobility >= 1000000 
+                        ? `${(yearItem.mobility / 1000000).toFixed(1)}M`
+                        : `${(yearItem.mobility / 1000).toFixed(0)}K`}
+                    </span>
+                  </div>
+
+                  {/* Margin Segment (Top) */}
+                  <div
+                    style={{
+                      flex: `0 0 ${(yearItem.grossProfit / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      backgroundColor: '#10B981',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: '16px 8px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: 'clamp(11px, 1vw, 14px)',
+                        fontWeight: 600,
+                        color: '#FFFFFF',
+                        marginBottom: '6px',
+                      }}
+                    >
+                      Margin
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: 'clamp(13px, 1.1vw, 16px)',
+                        fontWeight: 700,
+                        color: '#FFFFFF',
+                      }}
+                    >
+                      ${yearItem.grossProfit >= 1000000 
+                        ? `${(yearItem.grossProfit / 1000000).toFixed(1)}M`
+                        : `${(yearItem.grossProfit / 1000).toFixed(0)}K`}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Year Labels */}
@@ -344,7 +384,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   <div
                     style={{
                       fontFamily: 'var(--font-inter)',
-                      fontSize: 'clamp(18px, 1.2vw, 22px)',
+                      fontSize: 'clamp(20px, 1.5vw, 28px)',
                       fontWeight: 700,
                       color: '#FFFFFF',
                       marginBottom: '4px',
@@ -355,12 +395,25 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   <div
                     style={{
                       fontFamily: 'var(--font-inter)',
-                      fontSize: 'clamp(13px, 0.9vw, 16px)',
+                      fontSize: 'clamp(14px, 1vw, 18px)',
                       fontWeight: 500,
-                      color: 'rgba(255, 255, 255, 0.7)',
+                      color: 'rgba(255, 255, 255, 0.6)',
                     }}
                   >
                     {yearItem.period}
+                  </div>
+                  <div
+                    className="mt-2"
+                    style={{
+                      fontFamily: 'var(--font-inter)',
+                      fontSize: 'clamp(13px, 0.95vw, 16px)',
+                      fontWeight: 600,
+                      color: 'rgba(255, 255, 255, 0.8)',
+                    }}
+                  >
+                    ${yearItem.totalRevenue >= 1000000 
+                      ? `${(yearItem.totalRevenue / 1000000).toFixed(1)}M`
+                      : `${(yearItem.totalRevenue / 1000).toFixed(0)}K`} Revenue
                   </div>
                 </div>
               </div>
@@ -368,12 +421,104 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
           })}
         </div>
 
-        {/* Footer Note */}
+        {/* Legend */}
         <div
-          className="text-center w-full mt-12 transition-all duration-1000"
+          className="w-full max-w-6xl mx-auto mt-8 transition-all duration-1000"
           style={{
             opacity: isVisible ? 1 : 0,
             transitionDelay: '1200ms',
+          }}
+        >
+          <div className="flex justify-center gap-8 flex-wrap">
+            <div className="flex items-center gap-2">
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#6B7280',
+                  borderRadius: '4px',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(13px, 0.9vw, 16px)',
+                  fontWeight: 500,
+                  color: '#FFFFFF',
+                }}
+              >
+                COGS
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#B8860B',
+                  borderRadius: '4px',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(13px, 0.9vw, 16px)',
+                  fontWeight: 500,
+                  color: '#FFFFFF',
+                }}
+              >
+                Government
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#FFD700',
+                  borderRadius: '4px',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(13px, 0.9vw, 16px)',
+                  fontWeight: 500,
+                  color: '#FFFFFF',
+                }}
+              >
+                Mobility
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#10B981',
+                  borderRadius: '4px',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(13px, 0.9vw, 16px)',
+                  fontWeight: 500,
+                  color: '#FFFFFF',
+                }}
+              >
+                Gross Margin
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Note */}
+        <div
+          className="text-center w-full mt-8 transition-all duration-1000"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transitionDelay: '1400ms',
           }}
         >
           <p

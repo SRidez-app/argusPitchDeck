@@ -165,7 +165,8 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
             transitionDelay: '200ms',
           }}
         >
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse',
+  border: '2px solid rgba(255, 255, 255, 1)', }}>
             <thead>
               <tr style={{ background: 'rgba(0, 0, 0, 0.6)' }}>
                 <th style={{ 
@@ -307,14 +308,10 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
             </tbody>
           </table>
 
-          {/* Callout */}
+     {/* Callout */}
           <div
-            className="mt-6 transition-all duration-1000"
+            className="mt-16 transition-all duration-1000"
             style={{
-              padding: 'clamp(20px, 1.5vw, 24px) clamp(24px, 2vw, 32px)',
-              background: 'rgba(255, 202, 43, 0.15)',
-              border: '2px solid rgba(255, 202, 43, 0.3)',
-              borderRadius: '12px',
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
               transitionDelay: '400ms',
@@ -322,15 +319,15 @@ const WhyArgusStandsAloneSlide: React.FC<WhyArgusStandsAloneSlideProps> = ({ onN
           >
             <p
               style={{
-                fontFamily: 'Apercu Pro',
-                fontSize: 'clamp(26px, 1.1vw, 20px)',
-                fontWeight: 700,
+                fontFamily: 'Tobias',
+                fontWeight: 500,
+                fontSize: 'clamp(36px, 4vw, 40px)',
+                lineHeight: '1.2',
+                letterSpacing: '0px',
                 color: '#FFFFFF',
-                lineHeight: '1.5',
               }}
             >
-              ARGUS AI is the only solution offering unlimited storage with full AI-powered capabilities — 
-              a 10X competitive advantage in the $2B+ traffic intelligence market.
+              <span style={{ color: '#FFCA2B' }}>ARGUS AI</span> is the only solution offering unlimited storage with full AI-powered capabilities — a 10X competitive advantage in the <span style={{ color: '#FFCA2B' }}>$2B+</span> traffic intelligence market.
             </p>
           </div>
         </div>
