@@ -81,7 +81,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
           opacity: 0.6,
         }}
       >
-        17
+        12
       </div>
 
       {/* Scaling wrapper */}
@@ -208,108 +208,12 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                 margin: '0 auto',
               }}
             >
-              We're not just detecting accidents—we're preventing tragedies. Real-time intelligence that alerts 911 before the first call, saving lives in the moments that matter most.
+              We're not just detecting accidents—we're preventing tragedies. Real-time intelligence that reduces congestion, alerts 911 before the first call, and saves lives in the moments that matter most.
             </p>
           </div>
 
-          {/* Traction Stats */}
-          <div 
-            className="flex gap-12 mb-12 transition-all duration-1000"
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-              transitionDelay: '600ms',
-            }}
-          >
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'Tobias',
-                  fontSize: '56px',
-                  fontWeight: 500,
-                  color: '#FFCA2B',
-                  lineHeight: '1',
-                  marginBottom: '8px',
-                }}
-              >
-                15+ PI Firms
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Apercu Pro',
-                  fontSize: '18px',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                Active Partnerships
-              </div>
-            </div>
-
-            <div 
-              style={{
-                width: '2px',
-                height: '80px',
-                background: 'linear-gradient(180deg, transparent, rgba(255, 202, 43, 0.5), transparent)',
-              }}
-            />
-
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'Tobias',
-                  fontSize: '56px',
-                  fontWeight: 500,
-                  color: '#FFCA2B',
-                  lineHeight: '1',
-                  marginBottom: '8px',
-                }}
-              >
-                80% Cost Cut
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Apercu Pro',
-                  fontSize: '18px',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                Infrastructure Savings
-              </div>
-            </div>
-
-            <div 
-              style={{
-                width: '2px',
-                height: '80px',
-                background: 'linear-gradient(180deg, transparent, rgba(255, 202, 43, 0.5), transparent)',
-              }}
-            />
-
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'Tobias',
-                  fontSize: '56px',
-                  fontWeight: 500,
-                  color: '#FFCA2B',
-                  lineHeight: '1',
-                  marginBottom: '8px',
-                }}
-              >
-                Real-Time
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Apercu Pro',
-                  fontSize: '18px',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                Detection & Alerting
-              </div>
-            </div>
-          </div>
-
+          
+      
           {/* Divider Line */}
           <div 
             className="transition-all duration-1000"

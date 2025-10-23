@@ -100,7 +100,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
           opacity: 0.6,
         }}
       >
-        7
+        9
       </div>
 
       {/* Content Container */}

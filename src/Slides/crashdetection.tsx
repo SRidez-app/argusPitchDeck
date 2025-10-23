@@ -73,7 +73,7 @@ const CrashDetectionSlide: React.FC<CrashDetectionSlideProps> = ({ onNext, onPre
           opacity: 0.6,
         }}
       >
-        3
+        4
       </div>
 
       {/* Scaling wrapper */}

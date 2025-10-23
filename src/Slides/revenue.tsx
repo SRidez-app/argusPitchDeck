@@ -140,7 +140,7 @@ const RevenueProjectionSlide: React.FC<RevenueProjectionSlideProps> = ({ onNext,
           opacity: 0.6,
         }}
       >
-        9
+        8
       </div>
 
       {/* Content Container */}
