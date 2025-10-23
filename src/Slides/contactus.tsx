@@ -49,12 +49,12 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
   useEffect(() => {
     const generateFireworks = () => {
       const newFireworks = [];
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 12; i++) {
         newFireworks.push({
           id: i,
           x: Math.random() * 100,
           y: 20 + Math.random() * 40,
-          delay: i * 800,
+          delay: i * 600,
         });
       }
       setFireworks(newFireworks);
@@ -68,12 +68,9 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
     <div 
       className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{
-        background: '#000000',
+        background: 'linear-gradient(107.56deg, #000000 37.5%, #14004C 100%)',
       }}
     >
-      {/* Background Video */}
-    
-
       {/* Page Number - Outside scaling wrapper */}
       <div 
         className="fixed bottom-8 right-8 text-white z-50"
@@ -156,11 +153,12 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
             }
           }
         `}</style>
+
         {/* Content Container */}
         <div className="relative w-full h-full flex flex-col items-center justify-center px-12">
           {/* Logo */}
           <div 
-            className="mb-12 transition-all duration-1000"
+            className="mb-8 transition-all duration-1000"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'scale(1)' : 'scale(0.9)',
@@ -170,16 +168,16 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
             <Image
               src="/whitelogo.png"
               alt="Argus Logo"
-              width={300}
-              height={300}
-              style={{ width: '300px', height: 'auto' }}
+              width={240}
+              height={240}
+              style={{ width: '240px', height: 'auto' }}
               priority
             />
           </div>
 
-          {/* Thank You Message */}
+          {/* Main Headline */}
           <div 
-            className="text-center mb-16 transition-all duration-1000"
+            className="text-center mb-10 transition-all duration-1000"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
@@ -190,14 +188,14 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
               style={{
                 fontFamily: 'Tobias',
                 fontWeight: 500,
-                fontSize: '96px',
+                fontSize: '80px',
                 lineHeight: '110%',
                 letterSpacing: '0px',
                 color: '#FFFFFF',
-                marginBottom: '24px',
+                marginBottom: '20px',
               }}
             >
-              Thank You
+              Let's Build the Future Together
             </h1>
             <p
               style={{
@@ -205,25 +203,123 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                 fontWeight: 400,
                 fontSize: '32px',
                 lineHeight: '140%',
-                color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: '900px',
+                color: 'rgba(255, 255, 255, 0.85)',
+                maxWidth: '1100px',
                 margin: '0 auto',
               }}
             >
-              Together, we're making roads safer and cities smarter
+              We're not just detecting accidents—we're preventing tragedies. Real-time intelligence that alerts 911 before the first call, saving lives in the moments that matter most.
             </p>
+          </div>
+
+          {/* Traction Stats */}
+          <div 
+            className="flex gap-12 mb-12 transition-all duration-1000"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'scale(1)' : 'scale(0.95)',
+              transitionDelay: '600ms',
+            }}
+          >
+            <div style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  fontFamily: 'Tobias',
+                  fontSize: '56px',
+                  fontWeight: 500,
+                  color: '#FFCA2B',
+                  lineHeight: '1',
+                  marginBottom: '8px',
+                }}
+              >
+                15+ PI Firms
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Apercu Pro',
+                  fontSize: '18px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Active Partnerships
+              </div>
+            </div>
+
+            <div 
+              style={{
+                width: '2px',
+                height: '80px',
+                background: 'linear-gradient(180deg, transparent, rgba(255, 202, 43, 0.5), transparent)',
+              }}
+            />
+
+            <div style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  fontFamily: 'Tobias',
+                  fontSize: '56px',
+                  fontWeight: 500,
+                  color: '#FFCA2B',
+                  lineHeight: '1',
+                  marginBottom: '8px',
+                }}
+              >
+                80% Cost Cut
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Apercu Pro',
+                  fontSize: '18px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Infrastructure Savings
+              </div>
+            </div>
+
+            <div 
+              style={{
+                width: '2px',
+                height: '80px',
+                background: 'linear-gradient(180deg, transparent, rgba(255, 202, 43, 0.5), transparent)',
+              }}
+            />
+
+            <div style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  fontFamily: 'Tobias',
+                  fontSize: '56px',
+                  fontWeight: 500,
+                  color: '#FFCA2B',
+                  lineHeight: '1',
+                  marginBottom: '8px',
+                }}
+              >
+                Real-Time
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Apercu Pro',
+                  fontSize: '18px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Detection & Alerting
+              </div>
+            </div>
           </div>
 
           {/* Divider Line */}
           <div 
             className="transition-all duration-1000"
             style={{
-              width: '600px',
+              width: '700px',
               height: '2px',
               background: 'linear-gradient(90deg, transparent, #FFCA2B, transparent)',
-              marginBottom: '48px',
+              marginBottom: '36px',
               opacity: isVisible ? 1 : 0,
-              transitionDelay: '600ms',
+              transitionDelay: '800ms',
             }}
           />
 
@@ -233,26 +329,26 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-              transitionDelay: '800ms',
+              transitionDelay: '1000ms',
             }}
           >
             <h2
               style={{
                 fontFamily: 'Inter, var(--font-inter)',
                 fontWeight: 600,
-                fontSize: '28px',
+                fontSize: '24px',
                 lineHeight: '140%',
-                letterSpacing: '0.02em',
+                letterSpacing: '0.05em',
                 color: '#FFCA2B',
-                marginBottom: '32px',
+                marginBottom: '28px',
               }}
             >
-              LET'S CONNECT
+              JOIN THE MISSION
             </h2>
 
             {/* Contact Cards Grid */}
             <div 
-              className="flex gap-8 justify-center"
+              className="flex gap-6 justify-center"
               style={{
                 maxWidth: '1200px',
               }}
@@ -263,18 +359,27 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   backgroundColor: 'rgba(0, 0, 0, 0.6)',
                   border: '2px solid rgba(255, 202, 43, 0.3)',
                   borderRadius: '16px',
-                  padding: '32px 40px',
-                  minWidth: '280px',
+                  padding: '28px 36px',
+                  minWidth: '260px',
                   backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.6)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <div
                   style={{
                     fontFamily: 'Inter, var(--font-inter)',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     color: 'rgba(255, 255, 255, 0.6)',
-                    marginBottom: '12px',
+                    marginBottom: '10px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                   }}
@@ -285,7 +390,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   href="mailto:contact@argusai.com"
                   style={{
                     fontFamily: 'Apercu Pro',
-                    fontSize: '24px',
+                    fontSize: '22px',
                     fontWeight: 500,
                     color: '#FFFFFF',
                     textDecoration: 'none',
@@ -304,18 +409,27 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   backgroundColor: 'rgba(0, 0, 0, 0.6)',
                   border: '2px solid rgba(255, 202, 43, 0.3)',
                   borderRadius: '16px',
-                  padding: '32px 40px',
-                  minWidth: '280px',
+                  padding: '28px 36px',
+                  minWidth: '260px',
                   backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.6)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <div
                   style={{
                     fontFamily: 'Inter, var(--font-inter)',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     color: 'rgba(255, 255, 255, 0.6)',
-                    marginBottom: '12px',
+                    marginBottom: '10px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                   }}
@@ -326,7 +440,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   href="tel:+15551234567"
                   style={{
                     fontFamily: 'Apercu Pro',
-                    fontSize: '24px',
+                    fontSize: '22px',
                     fontWeight: 500,
                     color: '#FFFFFF',
                     textDecoration: 'none',
@@ -345,18 +459,27 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   backgroundColor: 'rgba(0, 0, 0, 0.6)',
                   border: '2px solid rgba(255, 202, 43, 0.3)',
                   borderRadius: '16px',
-                  padding: '32px 40px',
-                  minWidth: '280px',
+                  padding: '28px 36px',
+                  minWidth: '260px',
                   backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.6)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 202, 43, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <div
                   style={{
                     fontFamily: 'Inter, var(--font-inter)',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     color: 'rgba(255, 255, 255, 0.6)',
-                    marginBottom: '12px',
+                    marginBottom: '10px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                   }}
@@ -369,7 +492,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   rel="noopener noreferrer"
                   style={{
                     fontFamily: 'Apercu Pro',
-                    fontSize: '24px',
+                    fontSize: '22px',
                     fontWeight: 500,
                     color: '#FFFFFF',
                     textDecoration: 'none',
@@ -384,24 +507,36 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
             </div>
           </div>
 
-          {/* Tagline */}
+          {/* Closing Tagline */}
           <div 
-            className="text-center mt-16 transition-all duration-1000"
+            className="text-center mt-12 transition-all duration-1000"
             style={{
               opacity: isVisible ? 1 : 0,
-              transitionDelay: '1000ms',
+              transitionDelay: '1200ms',
             }}
           >
             <p
               style={{
                 fontFamily: 'Tobias',
-                fontSize: '36px',
+                fontSize: '38px',
                 fontWeight: 500,
                 color: '#FFCA2B',
                 letterSpacing: '0.02em',
+                marginBottom: '8px',
               }}
             >
-              Smart Cities Start With Vision
+              Every Second Counts. Every Life Matters.
+            </p>
+            <p
+              style={{
+                fontFamily: 'Apercu Pro',
+                fontSize: '20px',
+                fontWeight: 400,
+                color: 'rgba(255, 255, 255, 0.7)',
+                fontStyle: 'italic',
+              }}
+            >
+              The next emergency we prevent could be someone you love
             </p>
           </div>
         </div>

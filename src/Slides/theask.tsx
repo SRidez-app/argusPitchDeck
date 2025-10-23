@@ -24,13 +24,13 @@ const TheAskSlide: React.FC<TheAskSlideProps> = ({ onNext, onPrevious }) => {
 
   const objectives = [
     {
-      text: "Expand engineering team to accelerate product development and enhance AI capabilities for crash detection and predictive analytics"
+      text: "Execute on pilots in motion. \"Chicken or Egg\""
     },
     {
-      text: "Scale go-to-market operations including sales team expansion, strategic partnerships, and customer acquisition across mobility and government sectors"
+      text: "Scale go-to-market, strategic partnerships, and customer acquisition across mobility and government sectors"
     },
     {
-      text: "Invest in infrastructure and operational excellence to support rapid growth, including cloud infrastructure, data processing, and customer success operations"
+      text: "Invest in camera networks ahead of our growth to scale."
     }
   ];
 
