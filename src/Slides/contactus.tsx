@@ -157,8 +157,9 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
         {/* Content Container */}
         <div className="relative w-full h-full flex flex-col items-center justify-center px-12">
           {/* Logo */}
+         {/* Logo */}
           <div 
-            className="mb-8 transition-all duration-1000"
+            className="mb-16 transition-all duration-1000"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'scale(1)' : 'scale(0.9)',
@@ -177,7 +178,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
 
           {/* Main Headline */}
           <div 
-            className="text-center mb-10 transition-all duration-1000"
+            className="text-center mb-16 transition-all duration-1000"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
@@ -291,7 +292,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   Email
                 </div>
                 <a
-                  href="mailto:contact@argusai.com"
+                  href="mailto:support@getargus.ai"
                   style={{
                     fontFamily: 'Apercu Pro',
                     fontSize: '22px',
@@ -303,7 +304,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   onMouseEnter={(e) => e.currentTarget.style.color = '#FFCA2B'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
                 >
-                  contact@argusai.com
+                  support@getargus.ai
                 </a>
               </div>
 
@@ -353,7 +354,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   onMouseEnter={(e) => e.currentTarget.style.color = '#FFCA2B'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
                 >
-                  (555) 123-4567
+                  (402) 480-6092
                 </a>
               </div>
 
@@ -391,7 +392,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   Website
                 </div>
                 <a
-                  href="https://argusai.com"
+                  href="https://getargus.ai"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -405,7 +406,7 @@ const ContactUsSlide: React.FC<ContactUsSlideProps> = ({ onNext, onPrevious }) =
                   onMouseEnter={(e) => e.currentTarget.style.color = '#FFCA2B'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
                 >
-                  argusai.com
+                  getargus.ai
                 </a>
               </div>
             </div>
