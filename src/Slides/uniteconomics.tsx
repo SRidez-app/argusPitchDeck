@@ -50,17 +50,26 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
   ];
 
   // Process data for each year
+  // First, find the maximum values across all years for scaling
+  const maxCogs = Math.max(...yearData.map(y => y.cogs));
+  const maxGov = Math.max(...yearData.map(y => y.government));
+  const maxMobility = Math.max(...yearData.map(y => y.mobility));
+  const maxTotal = Math.max(...yearData.map(y => y.government + y.mobility + y.cogs));
+
   const processedData = yearData.map(year => {
     const totalRevenue = year.government + year.mobility;
     const grossProfit = totalRevenue - year.cogs;
-    const totalWithCogs = totalRevenue + year.cogs;
     const grossMarginPercent = ((grossProfit / totalRevenue) * 100).toFixed(0);
     
-    // Calculate percentages for bar segments
-    const cogsPercent = (year.cogs / totalWithCogs) * 100;
-    const govPercent = (year.government / totalWithCogs) * 100;
-    const mobilityPercent = (year.mobility / totalWithCogs) * 100;
-    const marginPercent = (grossProfit / totalWithCogs) * 100;
+    // Calculate segment heights as percentage of max total
+    // This makes segments proportional to their actual values
+    const cogsPercent = (year.cogs / maxTotal) * 100;
+    const govPercent = (year.government / maxTotal) * 100;
+    const mobilityPercent = (year.mobility / maxTotal) * 100;
+    
+    // Margin fills the remaining space to make total = 100%
+    const usedPercent = cogsPercent + govPercent + mobilityPercent;
+    const marginPercent = 100 - usedPercent;
 
     return {
       ...year,
@@ -122,7 +131,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
         <div 
           className="mb-20"
           style={{
-            marginBottom: 'clamp(160px, 10vh, 120px)',
+            marginBottom: 'clamp(80px, 10vh, 120px)',
           }}
         >
           <div
@@ -180,11 +189,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
             height: 'clamp(400px, 50vh, 600px)',
           }}
         >
-          {processedData.map((yearItem, index) => {
-            // Calculate heights as percentages of total (revenue + cogs)
-            const maxTotal = Math.max(...processedData.map(d => d.totalRevenue + d.cogs));
-            const totalHeight = ((yearItem.totalRevenue + yearItem.cogs) / maxTotal) * 100;
-            
+          {processedData.map((yearItem, index) => {            
             return (
               <div 
                 key={index}
@@ -209,24 +214,23 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   {yearItem.grossMarginPercent}% Margin
                 </div>
 
-                {/* Vertical Stacked Bar */}
+                {/* Vertical Stacked Bar - ALL BARS ARE 100% HEIGHT */}
                 <div
                   style={{
                     width: '100%',
-                    height: `${totalHeight}%`,
+                    height: '100%',
                     display: 'flex',
                     flexDirection: 'column-reverse',
                     borderRadius: '8px',
                     overflow: 'hidden',
                     border: '2px solid rgba(164, 179, 255, 0.3)',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                    minHeight: '200px',
                   }}
                 >
-                  {/* COGS Segment (Bottom) */}
+                  {/* COGS Segment (Bottom) - Uses percentage of total */}
                   <div
                     style={{
-                      flex: `0 0 ${(yearItem.cogs / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      flex: `0 0 ${yearItem.cogsPercent}%`,
                       backgroundColor: '#6B7280',
                       display: 'flex',
                       flexDirection: 'column',
@@ -266,7 +270,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   {yearItem.government > 0 && (
                     <div
                       style={{
-                        flex: `0 0 ${(yearItem.government / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                        flex: `0 0 ${yearItem.govPercent}%`,
                         backgroundColor: '#B8860B',
                         display: 'flex',
                         flexDirection: 'column',
@@ -306,7 +310,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   {/* Mobility Segment */}
                   <div
                     style={{
-                      flex: `0 0 ${(yearItem.mobility / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      flex: `0 0 ${yearItem.mobilityPercent}%`,
                       backgroundColor: '#FFD700',
                       display: 'flex',
                       flexDirection: 'column',
@@ -344,7 +348,7 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                   {/* Margin Segment (Top) */}
                   <div
                     style={{
-                      flex: `0 0 ${(yearItem.grossProfit / (yearItem.totalRevenue + yearItem.cogs)) * 100}%`,
+                      flex: `0 0 ${yearItem.marginPercent}%`,
                       backgroundColor: '#10B981',
                       display: 'flex',
                       flexDirection: 'column',
@@ -359,22 +363,9 @@ const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ onNext, onPrevi
                         fontSize: 'clamp(11px, 1vw, 14px)',
                         fontWeight: 600,
                         color: '#FFFFFF',
-                        marginBottom: '6px',
                       }}
                     >
                       Margin
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: 'clamp(13px, 1.1vw, 16px)',
-                        fontWeight: 700,
-                        color: '#FFFFFF',
-                      }}
-                    >
-                      ${yearItem.grossProfit >= 1000000 
-                        ? `${(yearItem.grossProfit / 1000000).toFixed(1)}M`
-                        : `${(yearItem.grossProfit / 1000).toFixed(0)}K`}
                     </span>
                   </div>
                 </div>
